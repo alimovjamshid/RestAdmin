@@ -37,6 +37,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: const Color(0xFFEBE8E8),
         body: _list[_selectedIndex],
         bottomNavigationBar: ClipRRect(
           borderRadius: const BorderRadius.only(

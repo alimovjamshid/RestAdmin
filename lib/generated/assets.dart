@@ -2,10 +2,12 @@
 class Assets {
   Assets._();
 
+  static const String assetsCalendar = 'assets/calendar.png';
   static const String assetsChatHat = 'assets/chat_hat.png';
   static const String assetsCheck = 'assets/check.png';
   static const String assetsDocument = 'assets/document.png';
   static const String assetsImg = 'assets/img.png';
+  static const String assetsImg1 = 'assets/settings.png';
   static const String assetsMain = 'assets/main.png';
 
 }
