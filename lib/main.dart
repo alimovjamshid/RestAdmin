@@ -24,7 +24,7 @@ class _MyAppState extends State<MyApp> {
   int _selectedIndex = 0;
 
   final List<Widget> _list = List<Widget>.unmodifiable([
-    HomePage(),
+    const HomePage(),
     const BronPage(),
     const MenuSelectPage(),
     const MenuCreatePage(),
@@ -41,32 +41,9 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          backwardsCompatibility: true,
-          systemOverlayStyle: SystemUiOverlayStyle(
-            systemNavigationBarContrastEnforced: false,
-            systemStatusBarContrastEnforced: false,
-            statusBarBrightness: Brightness.light,
-            statusBarIconBrightness: Brightness.dark,
-            statusBarColor: Colors.transparent
-          )
-        )
-      ),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-              icon: Icon(
-                Icons.menu,
-                color: Colors.black,
-              ),
-              onPressed: () {
-                utils.scaffoldKey.currentState!.openEndDrawer();
-              }),
-          backgroundColor: Theme.of(context).canvasColor,
-          title: Text("Hi"),
-        ),
+        drawerEnableOpenDragGesture: false,
         endDrawer: const AppDrawer(),
         key: utils.scaffoldKey,
         backgroundColor: const Color(0xFFEBE8E8),

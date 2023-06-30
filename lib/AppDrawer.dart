@@ -2,12 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AppDrawer extends StatelessWidget {
-  const AppDrawer({super.key});
-
+   const AppDrawer({super.key});
   @override
   Widget build(BuildContext context) {
+    final double statusBarHeight = MediaQuery.of(context).padding.top;
     return Drawer(
-      surfaceTintColor: Colors.amberAccent,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(6),
@@ -15,7 +14,16 @@ class AppDrawer extends StatelessWidget {
           )
       ),
       child: ListView(
+        padding: EdgeInsets.zero,
         children: [
+          Container(
+            height: statusBarHeight,
+            decoration: ShapeDecoration(
+                color: Color(0xFF0B6561),
+                shape: RoundedRectangleBorder(
+                )
+            ),
+          ),
           Container(
             height: 60,
             decoration: ShapeDecoration(
@@ -28,6 +36,8 @@ class AppDrawer extends StatelessWidget {
                 "logo-RestAdmin",
                 textAlign: TextAlign.center,
                 style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white
                 ),
               ),
             ),
