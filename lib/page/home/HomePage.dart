@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restadmin/Utils.dart';
+import 'package:restadmin/page/home/widgets/CustomCalendarDialog.dart';
 import 'package:restadmin/page/home/widgets/CustomExpanceDialog.dart';
 import 'package:restadmin/page/home/widgets/CustomELevetedButton.dart';
 import 'package:restadmin/page/home/widgets/CustomIconButton.dart';
@@ -15,15 +16,11 @@ class HomePage extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     return SafeArea(
         child: Stack(children: [
-          Column(
-            children: [
-              Image.asset(
-                "assets/img.png",
-                width: width,
-                height: 162,
-                fit: BoxFit.fill,
-              ),
-            ],
+          Image.asset(
+            "assets/img.png",
+            width: width,
+            height: 162,
+            fit: BoxFit.fill,
           ),
           Container(
             margin: const EdgeInsets.only(top: 143),
@@ -59,7 +56,10 @@ class HomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomIconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pop(aka());
+                    // CustomCalendarDialog(context);
+                  },
                   imageIcon: "assets/calendar.png",
                   height: 35,
                   width: 35,
