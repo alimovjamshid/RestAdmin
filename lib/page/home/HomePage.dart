@@ -57,8 +57,8 @@ class HomePage extends StatelessWidget {
               children: [
                 CustomIconButton(
                   onPressed: () {
-                    Navigator.of(context).pop(aka());
-                    // CustomCalendarDialog(context);
+                    // Navigator.of(context).pop(aka());
+                    CustomCalendarDialog(context);
                   },
                   imageIcon: "assets/calendar.png",
                   height: 35,

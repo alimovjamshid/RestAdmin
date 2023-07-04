@@ -5,11 +5,11 @@ import 'package:restadmin/page/bron/BronPage.dart';
 import 'package:restadmin/page/home/HomePage.dart';
 import 'package:restadmin/page/menu_create/MenuCreatePage.dart';
 import 'package:restadmin/page/menu_select/MenuSelectPage.dart';
-
+import 'package:intl/date_symbol_data_local.dart';
 import 'AppDrawer.dart';
 
 void main() {
-  runApp(const MyApp());
+  initializeDateFormatting().then((_) => runApp(MyApp()));
 }
 
 class MyApp extends StatefulWidget {

@@ -66,7 +66,7 @@ class MenuSelectPage extends StatelessWidget {
                       children: [
                         Center(
                           child: Text(
-                            "Band qilish",
+                            "Menu tanlash",
                             style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold
