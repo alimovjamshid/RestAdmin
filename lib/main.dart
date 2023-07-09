@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:restadmin/Utils.dart';
 import 'package:restadmin/page/bron/BronPage.dart';
 import 'package:restadmin/page/home/HomePage.dart';
@@ -16,6 +15,7 @@ class MyApp extends StatefulWidget {
 
   const MyApp({Key? key}) : super(key: key);
 
+
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -24,16 +24,22 @@ class _MyAppState extends State<MyApp> {
   int _selectedIndex = 0;
 
   final List<Widget> _list = List<Widget>.unmodifiable([
-    const HomePage(),
-    const BronPage(),
-    const MenuSelectPage(),
-    const MenuCreatePage(),
+    HomePage(),
+    BronPage(),
+    MenuSelectPage(),
+    MenuCreatePage(),
   ]);
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    main();
+    super.initState();
   }
 
   final Utils utils = Utils();
@@ -54,9 +60,9 @@ class _MyAppState extends State<MyApp> {
             topRight: Radius.circular(10)
           ),
           child: BottomNavigationBar(
-            backgroundColor: const Color(0xFF0B6561),
-            selectedItemColor: const Color(0xFF55FFF8),
-            unselectedItemColor: const Color(0xFFFFFFFF),
+            backgroundColor: colorGreen3,
+            selectedItemColor: colorSelect,
+            unselectedItemColor: Colors.white,
             type: BottomNavigationBarType.fixed,
             items: const [
               BottomNavigationBarItem(

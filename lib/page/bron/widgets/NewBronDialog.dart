@@ -1,93 +1,107 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:restadmin/Utils.dart';
+import 'package:restadmin/page/home/widgets/CustomELevetedButton.dart';
 
-void NewBronDialog(BuildContext context){
+import 'NevTextField.dart';
+
+void NewBronDialog(BuildContext context, int month, int day,){
   showDialog(
+    useRootNavigator: true,
+      barrierDismissible: false,
       context: context,
       builder: (context) {
         return Dialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+          insetPadding: EdgeInsets.symmetric(horizontal: 20),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Stack(
-                  children: [
-                    Align(
-                      heightFactor: 3,
-                      alignment: Alignment.bottomLeft,
-                      child: Container(
-                        width: 100,
-                        child: Column(
-                          children: [
-                            Text("Tongi marosim"),
-                            SizedBox(height: 2,),
-                            Container(height: 1,color: Color(0xFF469794),)
-                          ],
+            child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Stack(
+                    children: [
+                      Align(
+                        heightFactor: 3,
+                        alignment: Alignment.bottomLeft,
+                        child: Container(
+                          width: 100,
+                          child: Column(
+                            children: [
+                              Text("Tongi marosim",style: TextStyle(color: colorText)),
+                              SizedBox(height: 4,),
+                              Container(height: 1,color: colorGreen2,)
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    Center(
-                      heightFactor: 2,
-                        child: Text(
-                          "2-May",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400
-                          ),
-                        )
-                    ),
-                    Align(
-                      heightFactor: 1,
-                      alignment: Alignment.topRight,
-                      child: IconButton(
-                          onPressed: (){},
-                          padding: EdgeInsets.zero,
-                          icon: ImageIcon(AssetImage("assets/cancel.png"),size: 40,color: Color(0xFF469794),)
+                      Center(
+                        heightFactor: 2,
+                          child: Text(
+                            "${day}-${months[month-1]}",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400
+                            ),
+                          )
                       ),
-                    )
-                  ],
-                ),
-                TextField(
-                  style: TextStyle(fontSize: 18),
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                      hintText: "Sveto muzika",
-                      hintStyle: TextStyle(fontSize: 18),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide:
-                          BorderSide(width: 5, color: Colors.black))),
-                ),
-                TextField(
-                  style: TextStyle(fontSize: 18),
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                      hintText: "Sveto muzika",
-                      hintStyle: TextStyle(fontSize: 18),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide:
-                          BorderSide(width: 5, color: Colors.black))),
-                ),
-                TextField(
-                  style: TextStyle(fontSize: 18),
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                      hintText: "Sveto muzika",
-                      hintStyle: TextStyle(fontSize: 18),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide:
-                          BorderSide(width: 5, color: Color(0xFF469794)))),
-                ),
-              ],
+                      Align(
+                        heightFactor: 1,
+                        alignment: Alignment.topRight,
+                        child: IconButton(
+                            onPressed: (){
+                              Navigator.of(context).pop();
+                            },
+                            padding: EdgeInsets.zero,
+                            icon: ImageIcon(AssetImage("assets/cancel.png"),size: 40,color: colorGreen2,)
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  NewTextField(text: "I.F.SH"),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  NewTextField(text: "Telefon raqam"),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  NewTextField(text: "2-telefon raqam"),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  NewTextField(text: "Berilgan zaklat"),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  NewTextField(text: "Manzil"),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  NewTextField(text: "Qo'shimcha ma'lumotlar",),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  CustomElevatedButton(textColor: Colors.white,text: "Tasdiqlash", onPressed: (){}, borderRadius: 6, color: colorGreen2,buttonWidth: 500, buttonHeight: 45,),
+                  SizedBox(
+                    height: 15,
+                  )
+                ]
+              ),
             ),
           ),
         );
       },
   );
 }
+

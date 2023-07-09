@@ -1,4 +1,3 @@
-import 'dart:collection';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +19,8 @@ class BronPage extends StatefulWidget {
   State<BronPage> createState() => _BronPageState();
 }
 
+List _isSelected = [false, true, false];
+
 class _BronPageState extends State<BronPage> {
 
   DateTime today = DateTime.now();
@@ -40,11 +41,18 @@ class _BronPageState extends State<BronPage> {
     });
   }
 
+  @override
+  void initState() {
+    BronPage();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+
+    Widget pageSection = const BronPage();
 
     _selectedDays.add(DateTime.utc(2023,07,6));
     _selectedDays.add(DateTime.utc(2023,07,10));
@@ -67,8 +75,7 @@ class _BronPageState extends State<BronPage> {
               children: [
                 CustomIconButton(
                   onPressed: () {
-                    Navigator.of(context).pop(aka());
-                    // CustomCalendarDialog(context);
+                    CustomCalendarDialog(context);
                   },
                   imageIcon: "assets/calendar.png",
                   height: 35,
@@ -102,25 +109,51 @@ class _BronPageState extends State<BronPage> {
               child: Column(
                 children: [
                   CustomAppBar(text: "Band qilish"),
-                  Container(
-                    color: Color(0xFFE3F8F7),
-                    child: Dropdown(),
-                  ),
+                  Dropdown(),
                   CustomCalendar(focusedDay: _focusedDay, selectedDays: _selectedDays),
                   SizedBox(
                     height: 10,
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
+                    child: Row (
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        BronELevatedButton(text: "Tongi",circleColor: Color(0xFF8FBB74),circle: true,radius: 4,select: false),
-                        BronELevatedButton(text: "Kunduzgi",circleColor: Color(0xFF7DBDEB),circle: true,radius: 4,select: true),
-                        BronELevatedButton(text: "Kechki",circleColor: Color(0xFFEB7D7D),circle: true,radius: 4,select: false),
+                        BronELevatedButton(text: "Tongi",circleColor: colorGreen,circle: true,radius: 4,select: partDay[0] ,day: 0),
+                        BronELevatedButton(text: "Kunduzgi",circleColor: colorBlue,circle: true,radius: 4,select: partDay[1], day: 1,),
+                        BronELevatedButton(text: "Kechki",circleColor: colorPink,circle: true,radius: 4,select: partDay[2], day: 2),
                       ],
                     ),
                   ),
+                  // Padding(
+                  //     padding: EdgeInsets.symmetric(horizontal: 20),
+                  //   child: ToggleButtons(
+                  //     onPressed: (int index) {
+                  //       setState(() {
+                  //         for(int i=0;i<partDay.length;i++){
+                  //           partDay[i] = i == index;
+                  //         }
+                  //         debugPrint(partDay.toString());
+                  //       });
+                  //     },
+                  //     borderRadius: const BorderRadius.all(Radius.circular(8)),
+                  //     selectedBorderColor: Colors.red[700],
+                  //     selectedColor: Colors.white,
+                  //     borderColor: Colors.tealAccent,
+                  //     fillColor: Colors.red[200],
+                  //     color: Colors.red[400],
+                  //     constraints: const BoxConstraints(
+                  //       minHeight: 40.0,
+                  //       minWidth: 80.0,
+                  //     ),
+                  //
+                  //     tapTargetSize: MaterialTapTargetSize.padded,
+                  //     isSelected: partDay,
+                  //     children: [  Text('Apple'),
+                  //       Text('Banana'),
+                  //       Text('Orange')],
+                  //   ),
+                  // ),
                   SizedBox(
                     height: 20,
                   ),
@@ -128,7 +161,7 @@ class _BronPageState extends State<BronPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Container(
                       height: 1,
-                      color: Color(0xFFC0C0C0),
+                      color: colorView,
                     ),
                   ),
                   SizedBox(
@@ -139,9 +172,9 @@ class _BronPageState extends State<BronPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        MonthElevatedButton(text: month[0],  radius: 40, select: false),
-                        MonthElevatedButton(text: month[1],  radius: 40, select: false),
-                        MonthElevatedButton(text: month[2],  radius: 40, select: false)
+                        MonthElevatedButton(text: months[0],  radius: 40, select: false),
+                        MonthElevatedButton(text: months[1],  radius: 40, select: false),
+                        MonthElevatedButton(text: months[2],  radius: 40, select: false)
                       ],
                     ),
                   ),
@@ -150,9 +183,9 @@ class _BronPageState extends State<BronPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        MonthElevatedButton(text: month[3],  radius: 40, select: true),
-                        MonthElevatedButton(text: month[4],  radius: 40, select: false),
-                        MonthElevatedButton(text: month[5],  radius: 40, select: false)
+                        MonthElevatedButton(text: months[3],  radius: 40, select: true),
+                        MonthElevatedButton(text: months[4],  radius: 40, select: false),
+                        MonthElevatedButton(text: months[5],  radius: 40, select: false)
                       ],
                     ),
                   ),
@@ -161,9 +194,9 @@ class _BronPageState extends State<BronPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        MonthElevatedButton(text: month[6],  radius: 40, select: false),
-                        MonthElevatedButton(text: month[7],  radius: 40, select: false),
-                        MonthElevatedButton(text: month[8],  radius: 40, select: false)
+                        MonthElevatedButton(text: months[6],  radius: 40, select: false),
+                        MonthElevatedButton(text: months[7],  radius: 40, select: false),
+                        MonthElevatedButton(text: months[8],  radius: 40, select: false)
                       ],
                     ),
                   ),
@@ -172,9 +205,9 @@ class _BronPageState extends State<BronPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        MonthElevatedButton(text: month[9],  radius: 40, select: false),
-                        MonthElevatedButton(text: month[10],  radius: 40, select: false),
-                        MonthElevatedButton(text: month[11],  radius: 40, select: false)
+                        MonthElevatedButton(text: months[9],  radius: 40, select: false),
+                        MonthElevatedButton(text: months[10],  radius: 40, select: false),
+                        MonthElevatedButton(text: months[11],  radius: 40, select: false)
                       ],
                     ),
                   ),

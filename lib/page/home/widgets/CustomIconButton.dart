@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:restadmin/Utils.dart';
 
 class CustomIconButton extends StatelessWidget {
   final double? borderRadius;
@@ -17,7 +18,7 @@ class CustomIconButton extends StatelessWidget {
       width: width,
       height: height,
       decoration: ShapeDecoration(
-        color: const Color(0xFF469693),
+        color: colorGreen2,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadius!)),
       ),
       child: IconButton(

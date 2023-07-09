@@ -1,6 +1,9 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restadmin/page/bron/widgets/NewBronDialog.dart';
+import 'package:restadmin/page/bron/widgets/OldBronDialog.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../../Utils.dart';
 
@@ -22,7 +25,7 @@ class CustomCalendar extends StatelessWidget {
       locale: 'uz_UZ',
       calendarStyle: CalendarStyle(
         todayDecoration: BoxDecoration(
-          color: Color(0xFF95DBD8),
+          color: colorGreenLight,
           borderRadius: BorderRadius.circular(6),
           shape: BoxShape.rectangle,
         ),
@@ -37,7 +40,7 @@ class CustomCalendar extends StatelessWidget {
         ),
         outsideDaysVisible: true,
         selectedDecoration: BoxDecoration(
-          color: const Color(0xFF0B6561),
+          color: colorGreen3,
           borderRadius: BorderRadius.circular(6),
           shape: BoxShape.rectangle,
         ),
@@ -54,33 +57,30 @@ class CustomCalendar extends StatelessWidget {
             borderRadius: BorderRadius.circular(6)
         ),
       ),
-      holidayPredicate: (day) {
-        return day == DateTime(2023,07,15);
-      },
       startingDayOfWeek: StartingDayOfWeek.monday,
       daysOfWeekStyle: DaysOfWeekStyle(
           weekendStyle: TextStyle(
-              color: Color(0xFFC57B7B)
+              color: colorPink
           )
       ),
       headerVisible: true,
       calendarFormat: CalendarFormat.month,
       headerStyle: HeaderStyle(
           titleCentered: true,
-          formatButtonShowsNext: false,
+          formatButtonShowsNext: true,
           formatButtonVisible: false,
           rightChevronVisible: true,
           leftChevronVisible: true,
           titleTextFormatter: (date, locale) {
-            return month[date.month-1];
+            return months[date.month-1];
           },
-          leftChevronIcon: ImageIcon(AssetImage("assets/left.png"),color: Color(0xFFB6C9C8),size: 35),
-          rightChevronIcon: ImageIcon(AssetImage("assets/right.png"),color: Color(0xFFB6C9C8),size: 35,),
+          leftChevronIcon: ImageIcon(AssetImage("assets/left.png"),color: colorView,size: 35),
+          rightChevronIcon: ImageIcon(AssetImage("assets/right.png"),color: colorView,size: 35,),
           headerPadding: EdgeInsets.symmetric(vertical: 0),
           titleTextStyle: TextStyle(
-              color: Color(0xFF0B6561),
+              color: colorGreen3,
               fontSize: 20
-          )
+          ),
       ),
       focusedDay: _focusedDay,
       firstDay: DateTime.utc(2020,01,01),
@@ -90,9 +90,10 @@ class CustomCalendar extends StatelessWidget {
       onDaySelected: (selectedDay, focusedDay) {
         if (_selectedDays.contains(selectedDay)) {
           debugPrint("oldin belgilangan");
+          OldBronDialog(context, selectedDay.month, selectedDay.day);
         } else {
-          debugPrint("qo'shildi");
-          NewBronDialog(context);
+          debugPrint(selectedDay.toString());
+          NewBronDialog(context,selectedDay.month,selectedDay.day);
         }
       },
     );

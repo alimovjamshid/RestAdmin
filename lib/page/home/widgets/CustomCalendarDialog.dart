@@ -1,28 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:restadmin/Utils.dart';
 import 'package:restadmin/page/home/widgets/DropDown.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 // ignore: non_constant_identifier_names
 
-class aka extends StatefulWidget {
-  const aka({super.key});
-
-  @override
-  State<aka> createState() => _akaState();
-}
-
-class _akaState extends State<aka> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 500,
-      width: 500,
-      color: Colors.amber,
-      child: Text("salom")
-    );
-  }
-}
 
 void CustomCalendarDialog(BuildContext context){
   showDialog(
@@ -32,6 +15,7 @@ void CustomCalendarDialog(BuildContext context){
     context: context,
     builder: (BuildContext context) {
       return Dialog(
+        insetPadding: EdgeInsets.symmetric(horizontal: 20),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -61,7 +45,7 @@ void CustomCalendarDialog(BuildContext context){
               ),
             ),
             Container(
-              color: Color(0xFFE3F8F7),
+              color: colorAppBarLight,
               child: Dropdown(),
             ),
             TableCalendar(

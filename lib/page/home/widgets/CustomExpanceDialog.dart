@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:restadmin/Utils.dart';
 
 import 'CustomELevetedButton.dart';
 
@@ -14,6 +15,7 @@ void CustomExpanceDialog(BuildContext context) {
     builder: (BuildContext context) {
       return Dialog(
         backgroundColor: Colors.white,
+        insetPadding: EdgeInsets.symmetric(horizontal: 20),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -21,8 +23,8 @@ void CustomExpanceDialog(BuildContext context) {
           children: [
             Container(
               height: 55,
-              decoration: const ShapeDecoration(
-                  color: Color(0xFF0B6561),
+              decoration: ShapeDecoration(
+                  color: colorGreen3,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(6),
@@ -100,20 +102,22 @@ void CustomExpanceDialog(BuildContext context) {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomElevatedButton(
+                        textColor: Colors.white,
                         text: "Bekor qilish",
                         onPressed: (){
                           Navigator.of(context).pop();
                         },
-                        textRound: 6,
-                        color: Color(0xFF7EB9B7),
+                        borderRadius: 6,
+                        color: colorGreen1,
                         buttonHeight: 50,
                         textSize: 16,
                       ),
                       CustomElevatedButton(
+                        textColor: Colors.white,
                         text: "Tasdiqlash",
                         onPressed: () {},
-                        textRound: 6,
-                        color: Color(0xFF32A09C),
+                        borderRadius: 6,
+                        color: colorGreen2,
                         buttonHeight: 50,
                         textSize: 16,
                       )

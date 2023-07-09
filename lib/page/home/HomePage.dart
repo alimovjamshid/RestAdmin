@@ -1,3 +1,4 @@
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:restadmin/Utils.dart';
 import 'package:restadmin/page/home/widgets/CustomCalendarDialog.dart';
@@ -28,18 +29,20 @@ class HomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 CustomElevatedButton(
+                  textColor: Colors.white,
                   text: "Tahlil",
-                  textRound: 20,
+                  borderRadius: 20,
                   onPressed: () {},
                   buttonHeight: 40,
                   buttonWidth: 120,
                   textSize: 16,
-                  color: Color(0xFF0B6561),
+                  color: colorGreen3,
                 ),
                 CustomElevatedButton(
+                  textColor: Colors.white,
                   text: "Harajatlar",
-                  textRound: 20,
-                  color: Color(0xFF0B6561),
+                  borderRadius: 20,
+                  color: colorGreen3,
                   onPressed: () {
                     CustomExpanceDialog(context);
                   },
@@ -85,8 +88,59 @@ class HomePage extends StatelessWidget {
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(6))),
-            child: Column(
-              children: [],
+            child: Stack(
+              children:[
+                Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Align(
+                      alignment: FractionalOffset.centerLeft,
+                      child: Container(
+                        height: 30,
+                        width: 140,
+                        alignment: Alignment.centerLeft,
+                        decoration: ShapeDecoration(
+                          color: colorGreen3,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(6),
+                                  bottomRight: Radius.circular(6)
+                              )
+                          ),
+                        ),
+                        child: Center(child: Text("Bahor Restaurant",style: TextStyle(color: Colors.white))),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10,),
+                  Text("2-May",style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500),),
+                  ExpandablePanel(
+                      collapsed: Container(
+                        color: colorText,
+                        height: 0,
+                      ),
+                      expanded: Text("uka asdhhjdshjashdjkj adshjhjadshjhjahadskj asdhhjadsjadhjaskj"),
+                    header: Text("ana"),
+                    theme: ExpandableThemeData(
+                      hasIcon: true,
+                      iconColor: colorGreen3,
+                      iconSize: 36,
+                      headerAlignment: ExpandablePanelHeaderAlignment.center
+                    ),
+                  ),
+                  SizedBox(height: 0,),
+                  Container(color: colorView,height: 1,)
+                ],
+              ),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 20,bottom: 5),
+                    child: Image.asset("assets/eat.png",width: 130),
+                  ),
+                )
+              ]
             ),
           )
         ]),

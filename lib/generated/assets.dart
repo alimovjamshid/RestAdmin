@@ -4,12 +4,13 @@ class Assets {
 
   static const String assetsApp = 'assets/app.png';
   static const String assetsCalendar = 'assets/calendar.png';
+  static const String assetsCancel = 'assets/cancel.png';
   static const String assetsChatHat = 'assets/chat_hat.png';
   static const String assetsCheck = 'assets/check.png';
   static const String assetsDocument = 'assets/document.png';
   static const String assetsHands = 'assets/hands.png';
   static const String assetsImg = 'assets/img.png';
-  static const String assetsImg1 = 'assets/cancel.png';
+  static const String assetsImg1 = 'assets/eat.png';
   static const String assetsLeft = 'assets/left.png';
   static const String assetsMain = 'assets/main.png';
   static const String assetsMoney = 'assets/money.png';

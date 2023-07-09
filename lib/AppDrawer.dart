@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:restadmin/Utils.dart';
 
 class AppDrawer extends StatelessWidget {
    const AppDrawer({super.key});
@@ -19,7 +20,7 @@ class AppDrawer extends StatelessWidget {
           Container(
             height: statusBarHeight,
             decoration: ShapeDecoration(
-                color: Color(0xFF0B6561),
+                color: colorGreen3,
                 shape: RoundedRectangleBorder(
                 )
             ),
@@ -27,7 +28,7 @@ class AppDrawer extends StatelessWidget {
           Container(
             height: 60,
             decoration: ShapeDecoration(
-                color: Color(0xFF0B6561),
+                color: colorGreen3,
               shape: RoundedRectangleBorder(
               )
             ),

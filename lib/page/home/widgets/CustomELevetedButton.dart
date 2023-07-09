@@ -2,15 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomElevatedButton extends StatelessWidget {
+  final Color textColor;
   final String text;
-  final double textRound;
+  final double borderRadius;
   final Color color;
   final VoidCallback onPressed;
   final double? buttonWidth;
   final double? buttonHeight;
   final double? textSize;
   const CustomElevatedButton({
-    super.key, required this.text, required this.onPressed, this.buttonWidth, this.buttonHeight, this.textSize, required this.textRound, required this.color,
+    super.key, required this.text, required this.onPressed, this.buttonWidth, this.buttonHeight, this.textSize, required this.borderRadius, required this.color, required this.textColor,
   });
 
   @override
@@ -23,11 +24,12 @@ class CustomElevatedButton extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-              fontSize: textSize
+              fontSize: textSize,
+            color: textColor
           ),
         ),
         style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(textRound)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadius)),
           primary: color
         ),
       ),

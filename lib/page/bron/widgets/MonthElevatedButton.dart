@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:restadmin/Utils.dart';
 
 class MonthElevatedButton extends StatefulWidget {
 
@@ -30,7 +31,7 @@ class _MonthElevatedButtonState extends State<MonthElevatedButton> {
           shape: RoundedRectangleBorder(
             side: BorderSide(
                 width: 1,
-                color: Color(0xFF0B6561)
+                color: colorGreen3
             ),
             borderRadius: BorderRadius.circular(widget.radius),
           ),

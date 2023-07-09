@@ -1,5 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:restadmin/page/bron/BronPage.dart';
+
+import '../../../Utils.dart';
 
 class BronELevatedButton extends StatefulWidget {
   final String text;
@@ -7,9 +12,9 @@ class BronELevatedButton extends StatefulWidget {
   bool select;
   final Color circleColor;
   final double radius;
-
+  final int day;
   BronELevatedButton({
-    super.key, required this.text, this.circle, required this.circleColor, required this.radius, required this.select,
+    super.key, required this.text, this.circle, required this.circleColor, required this.radius, required this.select, required this.day,
   });
 
   @override
@@ -17,12 +22,35 @@ class BronELevatedButton extends StatefulWidget {
 }
 
 class _BronELevatedButtonState extends State<BronELevatedButton> {
+
+  void data(){
+
+  }
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: (){
+    return ElevatedButton (
+      onPressed: ()  {
         setState(() {
-          widget.select = !widget.select;
+          debugPrint(widget.day.toString());
+          switch(widget.day){
+            case 0:
+              partDay[0]=!partDay[0];
+              partDay[1]=false;
+              partDay[2]=false;
+              break;
+            case 1:
+              partDay[0]=false;
+              partDay[1]=!partDay[1];
+              partDay[2]=false;
+              break;
+            case 2:
+              partDay[0]=false;
+              partDay[1]=false;
+              partDay[2]=!partDay[2];
+              break;
+          }
+          debugPrint(partDay.toString());
+          // widget.select = !widget.select;
         });
       },
       style: ElevatedButton.styleFrom(
@@ -30,11 +58,11 @@ class _BronELevatedButtonState extends State<BronELevatedButton> {
             left: 15,
             right: 5
         ),
-        backgroundColor: widget.select ? Color(0xFF0B6561):Colors.white,
+        backgroundColor: partDay[widget.day] ? colorGreen3:Colors.white,
         shape: RoundedRectangleBorder(
           side: BorderSide(
               width: 1,
-              color: Color(0xFF0B6561)
+              color: colorGreen2
           ),
           borderRadius: BorderRadius.circular(widget.radius),
         ),
@@ -47,7 +75,7 @@ class _BronELevatedButtonState extends State<BronELevatedButton> {
             widget.text,
             textAlign: TextAlign.center,
             style: TextStyle(
-                color: widget.select ? Colors.white : Color(0xFF0B6561)
+                color: partDay[widget.day] ? Colors.white : colorGreen3
             ),
           ),
           SizedBox(width: 5,),
