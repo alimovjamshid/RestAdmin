@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:restadmin/main.dart';
 import 'package:restadmin/page/bron/BronPage.dart';
 
 import '../../../Utils.dart';
@@ -23,9 +24,6 @@ class BronELevatedButton extends StatefulWidget {
 
 class _BronELevatedButtonState extends State<BronELevatedButton> {
 
-  void data(){
-
-  }
   @override
   Widget build(BuildContext context) {
     return ElevatedButton (
@@ -50,7 +48,7 @@ class _BronELevatedButtonState extends State<BronELevatedButton> {
               break;
           }
           debugPrint(partDay.toString());
-          // widget.select = !widget.select;
+
         });
       },
       style: ElevatedButton.styleFrom(

@@ -18,6 +18,7 @@ final Color colorAppBarLight = Color(0xFFE3F8F7);
 final Color colorSelect = Color(0xFF55FFF8);
 final Color colorView = Color(0xFFC0C0C0);
 final Color colorText = Color(0xFF817E7E);
+final Color colorOnSelect = Color(0xFF62BAEC);
 
 final months = ["Yanvar","Fevral","Mart","Aprel","May","Iyun","Iyul","Avgust","Sentabr","Oktabr","Noyabr","Dekabr"];
 

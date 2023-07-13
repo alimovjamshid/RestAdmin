@@ -1,3 +1,4 @@
+import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restadmin/page/bron/widgets/CustomCalendar.dart';
@@ -11,12 +12,18 @@ import '../home/widgets/CustomCalendarDialog.dart';
 import '../home/widgets/CustomIconButton.dart';
 import '../home/widgets/DropDown.dart';
 
-class MenuSelectPage extends StatelessWidget {
+class MenuSelectPage extends StatefulWidget {
   MenuSelectPage({super.key});
 
+  @override
+  State<MenuSelectPage> createState() => _MenuSelectPageState();
+}
+
+class _MenuSelectPageState extends State<MenuSelectPage> {
   DateTime _focusedDay = DateTime.now();
 
   final Set<DateTime> _selectedDays = <DateTime>{};
+  bool ischecket = false;
 
   @override
   Widget build(BuildContext context) {
@@ -227,7 +234,70 @@ class MenuSelectPage extends StatelessWidget {
                   SizedBox(height: 5,),
                   Text("Standart Menu",style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500)),
                   SizedBox(height: 10,),
-
+                  Container(
+                    height: 150,
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        side: BorderSide(color: colorGreen2,width: 3)
+                      )
+                    ),
+                    child: Stack(
+                      children: [
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Text("Oddiy menu",style: TextStyle(color: colorGreen2)),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: Checkbox(
+                            value: ischecket,
+                            onChanged: (value) {
+                              setState(() {
+                                ischecket = value!;
+                              });
+                          },
+                            side: BorderSide(color: colorGreen2,width: 2),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
+                            activeColor: colorGreen2,
+                            autofocus: true,
+                          ),
+                        ),
+                        // Align(
+                        //   alignment: Alignment.topRight,
+                        //   child: SingleChildScrollView(
+                        //     child: ExpandablePanel(
+                        //         collapsed: Container(height: 0,width: 0,),
+                        //         expanded: Text("dssddsdssd"),
+                        //       header: Text("dsdsdsds\n\n\nfdsfdfsddsdsdsds\n\n\nfdsfdfsddsdsdsds\n\n\nfdsfdfsddsdsdsds\n\n\nfdsfdfsddsdsdsds\n\n\nfdsfdfsd"),
+                        //       theme: ExpandableThemeData(
+                        //         headerAlignment: ExpandablePanelHeaderAlignment.center,
+                        //         iconSize: 36,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // )
+                        Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Text("1 kishiga 45 ming",style: TextStyle(color: colorGreen2,fontSize: 18)),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Text("Ko'proq ko'rish",style: TextStyle(fontSize: 16,color: colorOnSelect)),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20,)
                 ],
               ),
             ),

@@ -23,7 +23,8 @@ class CustomIconButton extends StatelessWidget {
       ),
       child: IconButton(
         onPressed: onPressed,
-        icon: ImageIcon(AssetImage(imageIcon!),color: Colors.white,),
+        padding: EdgeInsets.zero,
+        icon: ImageIcon(AssetImage(imageIcon!),color: Colors.white),
       ),
     );
   }

@@ -1,10 +1,14 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:restadmin/Utils.dart';
+import 'package:restadmin/page/bron/widgets/OldTextField.dart';
+import 'package:restadmin/page/home/widgets/AboutDayPart.dart';
 import 'package:restadmin/page/home/widgets/CustomCalendarDialog.dart';
 import 'package:restadmin/page/home/widgets/CustomExpanceDialog.dart';
 import 'package:restadmin/page/home/widgets/CustomELevetedButton.dart';
 import 'package:restadmin/page/home/widgets/CustomIconButton.dart';
+import 'package:restadmin/page/home/widgets/CustomText.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class HomePage extends StatelessWidget {
 
@@ -90,56 +94,76 @@ class HomePage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(6))),
             child: Stack(
               children:[
-                Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Align(
-                      alignment: FractionalOffset.centerLeft,
-                      child: Container(
-                        height: 30,
-                        width: 140,
-                        alignment: Alignment.centerLeft,
-                        decoration: ShapeDecoration(
-                          color: colorGreen3,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(6),
-                                  bottomRight: Radius.circular(6)
-                              )
-                          ),
-                        ),
-                        child: Center(child: Text("Bahor Restaurant",style: TextStyle(color: Colors.white))),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 10,),
-                  Text("2-May",style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500),),
-                  ExpandablePanel(
-                      collapsed: Container(
-                        color: colorText,
-                        height: 0,
-                      ),
-                      expanded: Text("uka asdhhjdshjashdjkj adshjhjadshjhjahadskj asdhhjadsjadhjaskj"),
-                    header: Text("ana"),
-                    theme: ExpandableThemeData(
-                      hasIcon: true,
-                      iconColor: colorGreen3,
-                      iconSize: 36,
-                      headerAlignment: ExpandablePanelHeaderAlignment.center
-                    ),
-                  ),
-                  SizedBox(height: 0,),
-                  Container(color: colorView,height: 1,)
-                ],
-              ),
                 Align(
                   alignment: Alignment.bottomRight,
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 20,bottom: 5),
+                    padding: const EdgeInsets.only(right: 50,bottom: 5),
                     child: Image.asset("assets/eat.png",width: 130),
                   ),
-                )
+                ),
+                SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Align(
+                            alignment: FractionalOffset.centerLeft,
+                            child: Container(
+                              height: 30,
+                              width: 140,
+                              alignment: Alignment.centerLeft,
+                              decoration: ShapeDecoration(
+                                color: colorGreen3,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(6),
+                                        bottomRight: Radius.circular(6)
+                                    )
+                                ),
+                              ),
+                              child: Center(child: Text("Bahor Restaurant",style: TextStyle(color: Colors.white))),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10,),
+                        Text("2-May",style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500),),
+                      ],
+                    ),
+                    SizedBox(height: 30,),
+                    Column(
+                      children: [
+                        CustomText(text: "Tongi",circleColor: colorGreen),
+                        AboutDayPart(),
+                        Container(color: colorView,height: 1,),
+                        SizedBox(height: 30,),
+                        CustomText(text: "Kunduzgi", circleColor: colorBlue),
+                        AboutDayPart(),
+                        Container(color: colorView,height: 1,),
+                        SizedBox(height: 30,),
+                        CustomText(text: "Kechki", circleColor: colorPink),
+                        AboutDayPart(),
+                        Container(color: colorView,height: 1,),
+                      ],
+                    ),
+                    SizedBox(height: 20,),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomIconButton(onPressed: (){},imageIcon: "assets/lefta.png",height: 30,width: 50,borderRadius: 15,),
+                          CustomIconButton(onPressed: (){debugPrint("right");},imageIcon: "assets/righta.png",height: 30,width: 50,borderRadius: 15,)
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 20,)
+                  ],
+              ),
+                ),
               ]
             ),
           )
