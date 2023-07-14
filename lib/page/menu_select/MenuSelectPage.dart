@@ -116,9 +116,52 @@ class _MenuSelectPageState extends State<MenuSelectPage> {
                     child: Row (
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        BronELevatedButton(text: "Tongi",circleColor: colorGreen,circle: true,radius: 4,select: partDay[0] ,day: 0),
-                        BronELevatedButton(text: "Kunduzgi",circleColor: colorBlue,circle: true,radius: 4,select: partDay[1], day: 1,),
-                        BronELevatedButton(text: "Kechki",circleColor: colorPink,circle: true,radius: 4,select: partDay[2], day: 2),
+                        BronELevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                partDay[0] = !partDay[0];
+                                partDay[1] = false;
+                                partDay[2] = false;
+                                debugPrint(partDay.toString());
+                              });
+                            },
+                            text: "Tongi",
+                            circleColor: colorGreen,
+                            circle: true,
+                            radius: 4,
+                            select: partDay[0],
+                            day: 0),
+                        BronELevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              partDay[1] = !partDay[1];
+                              partDay[0] = false;
+                              partDay[2] = false;
+                              debugPrint(partDay.toString());
+                            });
+                          },
+                          text: "Kunduzgi",
+                          circleColor: colorBlue,
+                          circle: true,
+                          radius: 4,
+                          select: partDay[1],
+                          day: 1,
+                        ),
+                        BronELevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                partDay[2] = !partDay[2];
+                                partDay[1] = false;
+                                partDay[0] = false;
+                                debugPrint(partDay.toString());
+                              });
+                            },
+                            text: "Kechki",
+                            circleColor: colorPink,
+                            circle: true,
+                            radius: 4,
+                            select: partDay[2],
+                            day: 2),
                       ],
                     ),
                   ),
@@ -298,6 +341,7 @@ class _MenuSelectPageState extends State<MenuSelectPage> {
                     ),
                   ),
                   SizedBox(height: 20,)
+
                 ],
               ),
             ),

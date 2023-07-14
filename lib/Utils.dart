@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Utils {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
+  final Key _button = Key("ss");
 
 }
 
@@ -22,11 +22,5 @@ final Color colorOnSelect = Color(0xFF62BAEC);
 
 final months = ["Yanvar","Fevral","Mart","Aprel","May","Iyun","Iyul","Avgust","Sentabr","Oktabr","Noyabr","Dekabr"];
 
-final int partMoth = 0;
-
 final List<bool> partDay = [false,true,false];
-MaterialStatesController? partDay1Controller;
-
-int day1 = 0;
-int day2 = 0;
-int day3 = 0;
+final List<bool> partMonth = [false,false,false,false,false,false,false,false,false,false,false,false];

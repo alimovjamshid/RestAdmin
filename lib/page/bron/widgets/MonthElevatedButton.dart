@@ -2,45 +2,36 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restadmin/Utils.dart';
 
-class MonthElevatedButton extends StatefulWidget {
-
+class MonthElevatedButton extends StatelessWidget {
+  final VoidCallback onPressed;
   final String text;
-  bool select;
+  final  bool select;
   final double radius;
 
-  MonthElevatedButton({super.key, required this.text, required this.radius, required this.select});
+  const MonthElevatedButton({super.key,  required this.text, required this.radius, required this.select, required this.onPressed});
 
-  @override
-  State<MonthElevatedButton> createState() => _MonthElevatedButtonState();
-}
-
-class _MonthElevatedButtonState extends State<MonthElevatedButton> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 80,
       child: ElevatedButton(
-        onPressed: (){
-          setState(() {
-            widget.select = !widget.select;
-          });
-        },
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           padding: EdgeInsets.all(0),
-          backgroundColor: widget.select ? Color(0xFF0B6561):Colors.white,
+          backgroundColor: select ? colorGreen3:Colors.white,
           shape: RoundedRectangleBorder(
             side: BorderSide(
                 width: 1,
                 color: colorGreen3
             ),
-            borderRadius: BorderRadius.circular(widget.radius),
+            borderRadius: BorderRadius.circular(radius),
           ),
         ),
         child: Text(
-          widget.text,
+          text,
           textAlign: TextAlign.center,
           style: TextStyle(
-              color: widget.select ? Colors.white : Color(0xFF0B6561)
+              color: select ? Colors.white : colorGreen3
           ),
         ),
       ),
