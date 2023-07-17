@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 class Utils {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  final Key _button = Key("ss");
-
 }
 
 final Color colorGreenLight = Color(0xFF95DBD8);
@@ -21,6 +19,19 @@ final Color colorText = Color(0xFF817E7E);
 final Color colorOnSelect = Color(0xFF62BAEC);
 
 final months = ["Yanvar","Fevral","Mart","Aprel","May","Iyun","Iyul","Avgust","Sentabr","Oktabr","Noyabr","Dekabr"];
+
+int day = DateTime.now().day;
+int month = DateTime.now().month;
+int year = DateTime.now().year;
+
+String selectYear = "2023";
+final List<String> listYears = ["2022","2023","2024","2025","2026"];
+
+void dateSelect(){
+  for(int i=0;i<partMonth.length;i++){
+    partMonth[i] = i==month-1;
+  }
+}
 
 final List<bool> partDay = [false,true,false];
 final List<bool> partMonth = [false,false,false,false,false,false,false,false,false,false,false,false];

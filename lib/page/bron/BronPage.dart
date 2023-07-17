@@ -5,7 +5,6 @@ import 'package:restadmin/page/bron/widgets/BronElevatedButton.dart';
 import 'package:restadmin/page/bron/widgets/CustomAppBar.dart';
 import 'package:restadmin/page/bron/widgets/CustomCalendar.dart';
 import 'package:restadmin/page/bron/widgets/MonthElevatedButton.dart';
-import 'package:table_calendar/table_calendar.dart';
 import '../../Utils.dart';
 import '../home/widgets/CustomCalendarDialog.dart';
 import '../home/widgets/CustomIconButton.dart';
@@ -18,26 +17,9 @@ class BronPage extends StatefulWidget {
   State<BronPage> createState() => _BronPageState();
 }
 
-List _isSelected = [false, true, false];
-
 class _BronPageState extends State<BronPage> {
-  DateTime today = DateTime.now();
-
-  DateTime _focusedDay = DateTime.now();
 
   final Set<DateTime> _selectedDays = <DateTime>{};
-
-  void _onDaySelected(selectedDay, focusDay) {
-    setState(() {
-      _focusedDay = focusDay;
-      if (_selectedDays.contains(selectedDay)) {
-        _selectedDays.remove(selectedDay);
-      } else {
-        _selectedDays.add(selectedDay);
-      }
-      debugPrint(selectedDay.toString());
-    });
-  }
 
   @override
   void initState() {
@@ -49,9 +31,6 @@ class _BronPageState extends State<BronPage> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-
-    Widget pageSection = const BronPage();
-    final Key _button = Key("ss");
 
     _selectedDays.add(DateTime.utc(2023, 07, 6));
     _selectedDays.add(DateTime.utc(2023, 07, 10));
@@ -108,9 +87,24 @@ class _BronPageState extends State<BronPage> {
               child: Column(
                 children: [
                   CustomAppBar(text: "Band qilish"),
-                  Dropdown(),
-                  CustomCalendar(
-                      focusedDay: _focusedDay, selectedDays: _selectedDays),
+                  Dropdown(onPressed: (value) {
+                    setState(() {
+                      selectYear = value!;
+                      year = int.parse(value);
+                    });
+                  } ,selectValue: selectYear,list: listYears),
+
+                  CustomCalendar(onPressed: (focusedDay) {
+                    setState(() {
+                      month = focusedDay.month;
+                      debugPrint(month.toString());
+                      for(int i=0;i<partMonth.length;i++){
+                        partMonth[i] = month-1==i;
+                      }
+                      debugPrint(partMonth.toString());
+                    });
+                  },focusedDay: DateTime.utc(year,month,day), selectedDays: _selectedDays),
+
                   SizedBox(
                     height: 10,
                   ),
@@ -193,6 +187,7 @@ class _BronPageState extends State<BronPage> {
                                   partMonth[i] = 0==i;
                                 }
                               });
+                              month = 1;
                             },text: months[0], radius: 40, select: partMonth[0]),
                         MonthElevatedButton(
                             onPressed: (){
@@ -201,6 +196,7 @@ class _BronPageState extends State<BronPage> {
                                   partMonth[i] = 1==i;
                                 }
                               });
+                              month = 2;
                             },text: months[1], radius: 40, select: partMonth[1]),
                         MonthElevatedButton(
                             onPressed: (){
@@ -209,6 +205,7 @@ class _BronPageState extends State<BronPage> {
                                   partMonth[i] = 2==i;
                                 }
                               });
+                              month = 3;
                             },text: months[2], radius: 40, select: partMonth[2]),
                       ],
                     ),
@@ -225,6 +222,7 @@ class _BronPageState extends State<BronPage> {
                                   partMonth[i] = 3==i;
                                 }
                               });
+                              month = 4;
                             },text: months[3], radius: 40, select: partMonth[3]),
                         MonthElevatedButton(
                             onPressed: (){
@@ -233,6 +231,7 @@ class _BronPageState extends State<BronPage> {
                                   partMonth[i] = 4==i;
                                 }
                               });
+                              month = 5;
                             },text: months[4], radius: 40, select: partMonth[4]),
                         MonthElevatedButton(
                             onPressed: (){
@@ -241,6 +240,7 @@ class _BronPageState extends State<BronPage> {
                                   partMonth[i] = 5==i;
                                 }
                               });
+                              month=6;
                             },text: months[5], radius: 40, select: partMonth[5]),
                       ],
                     ),
@@ -257,6 +257,7 @@ class _BronPageState extends State<BronPage> {
                                   partMonth[i] = 6==i;
                                 }
                               });
+                              month = 7;
                             },text: months[6], radius: 40, select: partMonth[6]),
                         MonthElevatedButton(
                             onPressed: (){
@@ -265,6 +266,7 @@ class _BronPageState extends State<BronPage> {
                                   partMonth[i] = 7==i;
                                 }
                               });
+                              month = 8;
                             },text: months[7], radius: 40, select: partMonth[7]),
                         MonthElevatedButton(
                             onPressed: (){
@@ -273,6 +275,7 @@ class _BronPageState extends State<BronPage> {
                                   partMonth[i] = 8==i;
                                 }
                               });
+                              month = 9;
                             },text: months[8], radius: 40, select: partMonth[8]),
                       ],
                     ),
@@ -289,6 +292,7 @@ class _BronPageState extends State<BronPage> {
                                   partMonth[i] = 9==i;
                                 }
                               });
+                              month = 10;
                             },text: months[9], radius: 40, select: partMonth[9]),
                         MonthElevatedButton(
                             onPressed: (){
@@ -297,6 +301,7 @@ class _BronPageState extends State<BronPage> {
                                   partMonth[i] = 10==i;
                                 }
                               });
+                              month = 11;
                             },text: months[10], radius: 40, select: partMonth[10]),
                         MonthElevatedButton(
                             onPressed: (){
@@ -305,6 +310,7 @@ class _BronPageState extends State<BronPage> {
                                   partMonth[i] = 11==i;
                                 }
                               });
+                              month = 12;
                             },text: months[11], radius: 40, select: partMonth[11]),
                       ],
                     ),

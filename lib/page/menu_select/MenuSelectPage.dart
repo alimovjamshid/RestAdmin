@@ -2,11 +2,15 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restadmin/page/bron/widgets/CustomCalendar.dart';
-import 'package:restadmin/page/bron/widgets/NevTextField.dart';
-import 'package:table_calendar/table_calendar.dart';
-
+import 'package:restadmin/page/menu_select/widgets/CustomExpandablePanel.dart';
+import 'package:restadmin/page/menu_select/widgets/IsSelectedFood.dart';
+import 'package:restadmin/page/menu_select/widgets/OldText.dart';
+import 'package:restadmin/page/menu_select/widgets/SelectFood.dart';
+import 'package:restadmin/page/menu_select/widgets/SelectService.dart';
+import 'package:restadmin/page/menu_select/widgets/SelectWaiter.dart';
 import '../../Utils.dart';
 import '../bron/widgets/BronElevatedButton.dart';
+import '../bron/widgets/CustomAppBar.dart';
 import '../bron/widgets/OldTextField.dart';
 import '../home/widgets/CustomCalendarDialog.dart';
 import '../home/widgets/CustomIconButton.dart';
@@ -21,9 +25,22 @@ class MenuSelectPage extends StatefulWidget {
 
 class _MenuSelectPageState extends State<MenuSelectPage> {
   DateTime _focusedDay = DateTime.now();
+  final ExpandableController defaultExpandableController = ExpandableController();
+  final ExpandableController premiumExpandableController = ExpandableController();
+
+  final ExpandableController selectExpandableController1 = ExpandableController();
+  final ExpandableController selectExpandableController2 = ExpandableController();
+  final ExpandableController selectExpandableController3 = ExpandableController();
 
   final Set<DateTime> _selectedDays = <DateTime>{};
-  bool ischecket = false;
+  bool defaultChecket = false;
+  bool premiumChecket = false;
+
+  bool selectServiceChecket1 = false;
+  bool selectServiceChecket2 = false;
+  bool selectServiceChecket3 = false;
+
+  String count = "2";
 
   @override
   Widget build(BuildContext context) {
@@ -82,32 +99,23 @@ class _MenuSelectPageState extends State<MenuSelectPage> {
               physics: BouncingScrollPhysics(),
               child: Column(
                 children: [
-                  Container(
-                    height:   60,
-                    child: Stack(
-                      children: [
-                        Center(
-                          child: Text(
-                            "Menu tanlash",
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold
-                            ),
-                          ),
-                        ),
-                        Container(
-                          alignment: Alignment.centerRight,
-                          margin: EdgeInsets.only(
-                              right: 10,
-                              top: 10
-                          ),
-                          child: Image.asset("assets/pick.png"),
-                        )
-                      ],
-                    ),
-                  ),
-                  Dropdown(),
-                  CustomCalendar(focusedDay: DateTime.now(), selectedDays: _selectedDays),
+                  CustomAppBar(text: "Menu tanlash"),
+                  Dropdown(onPressed: (value) {
+                    setState(() {
+                      selectYear = value!;
+                      year = int.parse(value);
+                    });
+                  } ,selectValue: selectYear,list: listYears),
+                  CustomCalendar(onPressed: (focusedDay) {
+                    setState(() {
+                      month = focusedDay.month;
+                      debugPrint(month.toString());
+                      for(int i=0;i<partMonth.length;i++){
+                        partMonth[i] = month-1==i;
+                      }
+                      debugPrint(partMonth.toString());
+                    });
+                  },focusedDay: DateTime.utc(year,month,day), selectedDays: _selectedDays),
                   SizedBox(
                     height: 10,
                   ),
@@ -196,7 +204,13 @@ class _MenuSelectPageState extends State<MenuSelectPage> {
                   ),
                   SizedBox(height: 30,),
                   Center(
-                    child: Text("2-May",style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.w400)),
+                    child: Column(
+                      children: [
+                        Text("$day-${months[month-1]}",style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.w400)),
+                        SizedBox(height: 3,),
+                        Container(height: 1,width: 70,color: colorGreen2,)
+                      ],
+                    ),
                   ),
                   SizedBox(height: 20,),
                   Padding(
@@ -277,71 +291,188 @@ class _MenuSelectPageState extends State<MenuSelectPage> {
                   SizedBox(height: 5,),
                   Text("Standart Menu",style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500)),
                   SizedBox(height: 10,),
-                  Container(
-                    height: 150,
-                    decoration: ShapeDecoration(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        side: BorderSide(color: colorGreen2,width: 3)
-                      )
-                    ),
-                    child: Stack(
-                      children: [
-                        Align(
-                          alignment: Alignment.topCenter,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Text("Oddiy menu",style: TextStyle(color: colorGreen2)),
+                  CustomExpandablePanel(ischecket: defaultChecket, expandableController: defaultExpandableController,onPressed: (){
+                    defaultExpandableController.expanded = !defaultExpandableController.expanded;
+                  },onChanged: (value) {
+                    setState(() {
+                      defaultChecket = !defaultChecket;
+                    });
+                  },textColor: colorGreen2,background: Colors.white,expanded: Text("asasas"),label: "Oddiy menu",onPressedColor: colorSelect,personMoney: "1 kishiga 45 ming",checketColor: colorGreen2),
+                  SizedBox(height: 20,),
+                  CustomExpandablePanel(ischecket: premiumChecket, expandableController: premiumExpandableController,onPressed: (){
+                    premiumExpandableController.expanded = !premiumExpandableController.expanded;
+                  },onChanged: (value) {
+                    setState(() {
+                      premiumChecket = !premiumChecket;
+                    });
+                  },textColor: Colors.white,background: colorGreen2,expanded: Text("asasas"),label: "Premium menu",onPressedColor: Colors.white,personMoney: "1 kishiga 120 ming",checketColor: colorGreen2),
+                  SizedBox(height: 20,),
+                  OldText(text1: "Umumiy summa",text2: "5 000 000",),
+                  SizedBox(height: 25,),
+                  Text("Taom tanlash",style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.w500),),
+                  SizedBox(height: 15,),
+                  SelectFood(label: "1-taom",expanded: Text("sssasdsahghjadsdsahb"),expandableController: selectExpandableController1,onPressed: () {
+                    setState(() {
+                      selectExpandableController1.expanded = !selectExpandableController1.expanded;
+                    });
+                  },),
+                  SizedBox(height: 15,),
+                  SelectFood(label: "2-taom",expanded: Text("sssasdsahghjadsdsahb"),expandableController: selectExpandableController2,onPressed: () {
+                    setState(() {
+                      selectExpandableController2.expanded = !selectExpandableController2.expanded;
+                    });
+                  },),
+                  SizedBox(height: 15,),
+                  SelectFood(label: "3-taom",expanded: Text("sssasdsahghjadsdsahb"),expandableController: selectExpandableController3,onPressed: () {
+                    setState(() {
+                      selectExpandableController3.expanded = !selectExpandableController3.expanded;
+                    });
+                  },),
+                  SizedBox(height: 25,),
+                  Text("Qo'shimcha xizmatlar",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),),
+                  SizedBox(height: 20,),
+                  Column(
+                    children: [
+                      Container(height: 1,color: colorGreen2,),
+                      SelectService(label: "Saxna xizmati",moneyLabel: "\$120",ischecket: selectServiceChecket1,onChanged: (value) {
+                        setState(() {
+                          selectServiceChecket1 = !selectServiceChecket1;
+                        });
+                      },),
+                      Container(height: 1,color: colorGreen2,),
+                      SelectService(label: "Sveto-muzika",moneyLabel: "\$80",ischecket: selectServiceChecket2,onChanged: (value) {
+                        setState(() {
+                          selectServiceChecket2 = !selectServiceChecket2;
+                        });
+                      },),
+                      Container(height: 1,color: colorGreen2,),
+                      SelectService(label: "Affitsiantlar soni",moneyLabel: "\$100",ischecket: selectServiceChecket3,onChanged: (value) {
+                        setState(() {
+                          selectServiceChecket3 = !selectServiceChecket3;
+                        });
+                      },),
+                      Container(height: 1,color: colorGreen2,),
+                      SelectWaiter(label: "Affitsiantlar soni", addOnPassed: (){
+                        setState(() {
+                          int i = int.parse(count)+1;
+                          count = i.toString();
+                        });
+                      },minusOnPassed: (){
+                        setState(() {
+                          int i = int.parse(count);
+                          if(i>=1){
+                            i--;
+                          }
+                          else{
+                            i=0;
+                          }
+                          count = i.toString();
+                        });
+                      },count: count),
+                      Container(height: 1,color: colorGreen2,),
+                      SizedBox(height: 10,),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: OldText(text1: "Umumiy summa", text2: "5 000 00"),
+                      ),
+                      SizedBox(height: 20,),
+                      Text("Bozor ro'yxati",style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.w500),),
+                      SizedBox(height: 20,),
+                      Container(
+                        height: 45,
+                        decoration: ShapeDecoration(
+                          color: colorGreen3,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(topLeft: Radius.circular(6),topRight: Radius.circular(6)),
+                          )
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Go'shtli assorti",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 18,color: Colors.white)),
+                          Text("1 kishili stol",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 18,color: Colors.white)),
+                            ],
                           ),
                         ),
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: Checkbox(
-                            value: ischecket,
-                            onChanged: (value) {
-                              setState(() {
-                                ischecket = value!;
-                              });
-                          },
-                            side: BorderSide(color: colorGreen2,width: 2),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
-                            activeColor: colorGreen2,
-                            autofocus: true,
-                          ),
-                        ),
-                        // Align(
-                        //   alignment: Alignment.topRight,
-                        //   child: SingleChildScrollView(
-                        //     child: ExpandablePanel(
-                        //         collapsed: Container(height: 0,width: 0,),
-                        //         expanded: Text("dssddsdssd"),
-                        //       header: Text("dsdsdsds\n\n\nfdsfdfsddsdsdsds\n\n\nfdsfdfsddsdsdsds\n\n\nfdsfdfsddsdsdsds\n\n\nfdsfdfsddsdsdsds\n\n\nfdsfdfsd"),
-                        //       theme: ExpandableThemeData(
-                        //         headerAlignment: ExpandablePanelHeaderAlignment.center,
-                        //         iconSize: 36,
-                        //       ),
-                        //     ),
-                        //   ),
-                        // )
-                        Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Text("1 kishiga 45 ming",style: TextStyle(color: colorGreen2,fontSize: 18)),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Text("Ko'proq ko'rish",style: TextStyle(fontSize: 16,color: colorOnSelect)),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20,)
+                      ),
+                      SizedBox(height: 20,),
+                      IsSelectedFood(width: width,onChanged: (value) {
 
+                      },ischecket: false,label: "Tovuq go'shti",weight: "400gr",),
+                      SizedBox(height: 10,),
+                      IsSelectedFood(width: width,onChanged: (value) {
+
+                      },ischecket: false,label: "Qazi",weight: "400gr",),
+                      SizedBox(height: 10,),
+                      IsSelectedFood(width: width,onChanged: (value) {
+
+                      },ischecket: false,label: "Kolbasa",weight: "950gr",),
+                      SizedBox(height: 10,),
+                      IsSelectedFood(width: width,onChanged: (value) {
+
+                      },ischecket: false,label: "Sir",weight: "900gr",),
+                      SizedBox(height: 10,),
+                      IsSelectedFood(width: width,onChanged: (value) {
+
+                      },ischecket: false,label: "Mol go'shti",weight: "2kg",),
+                      SizedBox(height: 10,),
+                      IsSelectedFood(width: width,onChanged: (value) {
+
+                      },ischecket: false,label: "Qo'y go'shti",weight: "1kg",),
+                      SizedBox(height: 25,),
+                      Container(
+                        height: 45,
+                        decoration: ShapeDecoration(
+                            color: colorGreen3,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(topLeft: Radius.circular(6),topRight: Radius.circular(6)),
+                            )
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Mevali assorti",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 18,color: Colors.white)),
+                              Text("1 kishili stol",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 18,color: Colors.white)),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 80,),
+                      Container(
+                        height: 45,
+                        decoration: ShapeDecoration(
+                            color: colorGreen3,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(topLeft: Radius.circular(6),topRight: Radius.circular(6)),
+                            )
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Non assorti",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 18,color: Colors.white)),
+                              Text("1 kishili stol",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 18,color: Colors.white)),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 80,),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: colorGreen1,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6))
+                        ),
+                          onPressed: (){},
+                          child: Text("Tasdiqlash")
+                      ),
+                      SizedBox(height: 15,)
+                    ],
+                  )
                 ],
               ),
             ),

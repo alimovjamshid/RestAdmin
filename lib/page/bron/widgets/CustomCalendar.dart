@@ -8,14 +8,15 @@ import 'package:table_calendar/table_calendar.dart';
 import '../../../Utils.dart';
 
 class CustomCalendar extends StatelessWidget {
-  const CustomCalendar({
+   CustomCalendar({
     super.key,
     required DateTime focusedDay,
-    required Set<DateTime> selectedDays,
+    required Set<DateTime> selectedDays, required this.onPressed,
   }) : _focusedDay = focusedDay, _selectedDays = selectedDays;
 
-  final DateTime _focusedDay;
+   DateTime _focusedDay;
   final Set<DateTime> _selectedDays;
+  final Function(DateTime) onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -85,14 +86,13 @@ class CustomCalendar extends StatelessWidget {
       focusedDay: _focusedDay,
       firstDay: DateTime.utc(2020,01,01),
       lastDay: DateTime.utc(2030,12,31),
-      rangeSelectionMode: RangeSelectionMode.toggledOff,
+      rangeSelectionMode: RangeSelectionMode.toggledOn,
+      onPageChanged: onPressed,
       selectedDayPredicate: (day) => _selectedDays.contains(day),
       onDaySelected: (selectedDay, focusedDay) {
         if (_selectedDays.contains(selectedDay)) {
-          debugPrint("oldin belgilangan");
           OldBronDialog(context, selectedDay.month, selectedDay.day);
         } else {
-          debugPrint(selectedDay.toString());
           NewBronDialog(context,selectedDay.month,selectedDay.day);
         }
       },

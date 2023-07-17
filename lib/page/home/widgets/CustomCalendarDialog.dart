@@ -4,8 +4,6 @@ import 'package:restadmin/Utils.dart';
 import 'package:restadmin/page/home/widgets/DropDown.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-// ignore: non_constant_identifier_names
-
 
 void CustomCalendarDialog(BuildContext context){
   showDialog(
@@ -46,7 +44,12 @@ void CustomCalendarDialog(BuildContext context){
             ),
             Container(
               color: colorAppBarLight,
-              child: Dropdown(),
+              child: Dropdown(onPressed: (value) {
+                // setState(() {
+                //   selectYear = value!;
+                //   year = int.parse(value);
+                // });
+              } ,selectValue: selectYear,list: listYears),
             ),
             TableCalendar(
                 focusedDay: DateTime.now(),

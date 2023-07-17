@@ -2,7 +2,9 @@
 class Assets {
   Assets._();
 
+  static const String assetsAdd = 'assets/add.png';
   static const String assetsApp = 'assets/app.png';
+  static const String assetsArrow = 'assets/arrow.png';
   static const String assetsCalendar = 'assets/calendar.png';
   static const String assetsCancel = 'assets/cancel.png';
   static const String assetsChatHat = 'assets/chat_hat.png';
@@ -11,13 +13,15 @@ class Assets {
   static const String assetsEat = 'assets/eat.png';
   static const String assetsHands = 'assets/hands.png';
   static const String assetsImg = 'assets/img.png';
-  static const String assetsImg1 = 'assets/righta.png';
+  static const String assetsImg1 = 'assets/menu.png';
   static const String assetsLeft = 'assets/left.png';
   static const String assetsLefta = 'assets/lefta.png';
   static const String assetsMain = 'assets/main.png';
   static const String assetsMoney = 'assets/money.png';
   static const String assetsPick = 'assets/pick.png';
+  static const String assetsRemove = 'assets/remove.png';
   static const String assetsRight = 'assets/right.png';
+  static const String assetsRighta = 'assets/righta.png';
   static const String assetsRunning = 'assets/running.png';
   static const String assetsSettings = 'assets/settings.png';
   static const String assetsStatistic = 'assets/statistic.png';
