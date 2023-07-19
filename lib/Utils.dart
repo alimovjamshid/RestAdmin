@@ -17,6 +17,7 @@ final Color colorSelect = Color(0xFF55FFF8);
 final Color colorView = Color(0xFFC0C0C0);
 final Color colorText = Color(0xFF817E7E);
 final Color colorOnSelect = Color(0xFF62BAEC);
+final Color colorBackground = Color(0xFFEBE8E8);
 
 final months = ["Yanvar","Fevral","Mart","Aprel","May","Iyun","Iyul","Avgust","Sentabr","Oktabr","Noyabr","Dekabr"];
 
@@ -35,3 +36,5 @@ void dateSelect(){
 
 final List<bool> partDay = [false,true,false];
 final List<bool> partMonth = [false,false,false,false,false,false,false,false,false,false,false,false];
+
+final Set<DateTime> selectedDays = <DateTime>{};

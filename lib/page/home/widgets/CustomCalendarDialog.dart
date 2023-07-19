@@ -4,8 +4,10 @@ import 'package:restadmin/Utils.dart';
 import 'package:restadmin/page/home/widgets/DropDown.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../bron/widgets/CustomCalendar.dart';
 
-void CustomCalendarDialog(BuildContext context){
+
+void CustomCalendarDialog(BuildContext context,Function(DateTime) onPressedDay,Function(String?) onPressedDropdown){
   showDialog(
     barrierDismissible: true,
     useSafeArea: true,
@@ -18,44 +20,9 @@ void CustomCalendarDialog(BuildContext context){
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              height:   60,
-              child: Stack(
-                children: [
-                  Center(
-                    child: Text(
-                        "Band qilish",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold
-                      ),
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.centerRight,
-                    margin: EdgeInsets.only(
-                        right: 10,
-                      top: 10
-                    ),
-                    child: Image.asset("assets/pick.png"),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              color: colorAppBarLight,
-              child: Dropdown(onPressed: (value) {
-                // setState(() {
-                //   selectYear = value!;
-                //   year = int.parse(value);
-                // });
-              } ,selectValue: selectYear,list: listYears),
-            ),
-            TableCalendar(
-                focusedDay: DateTime.now(),
-                firstDay: DateTime.utc(2020,01,01),
-                lastDay: DateTime.utc(2030,01,01)
-            ),
+            Dropdown(onPressed: onPressedDropdown,selectValue: selectYear,list: listYears),
+
+            CustomCalendar(onPressed: onPressedDay, focusedDay: DateTime.utc(year,month,day), selectedDays: selectedDays),
           ],
         ),
       );

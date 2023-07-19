@@ -64,8 +64,11 @@ class HomePage extends StatelessWidget {
               children: [
                 CustomIconButton(
                   onPressed: () {
-                    // Navigator.of(context).pop(aka());
-                    CustomCalendarDialog(context);
+                    CustomCalendarDialog(context,(p0) {
+
+                    },(p0) {
+
+                    },);
                   },
                   imageIcon: "assets/calendar.png",
                   height: 35,
@@ -130,7 +133,7 @@ class HomePage extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 10,),
-                        Text("2-May",style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500),),
+                        Text("$day-${months[month-1]}",style: TextStyle(fontSize: 18,color: Colors.black,fontWeight: FontWeight.w500),),
                       ],
                     ),
                     SizedBox(height: 30,),

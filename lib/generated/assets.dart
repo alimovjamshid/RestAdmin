@@ -3,6 +3,7 @@ class Assets {
   Assets._();
 
   static const String assetsAdd = 'assets/add.png';
+  static const String assetsAddCircle = 'assets/addCircle.png';
   static const String assetsApp = 'assets/app.png';
   static const String assetsArrow = 'assets/arrow.png';
   static const String assetsCalendar = 'assets/calendar.png';
@@ -13,10 +14,12 @@ class Assets {
   static const String assetsEat = 'assets/eat.png';
   static const String assetsHands = 'assets/hands.png';
   static const String assetsImg = 'assets/img.png';
-  static const String assetsImg1 = 'assets/menu.png';
+  static const String assetsImg1 = 'assets/removeCircle.png';
   static const String assetsLeft = 'assets/left.png';
   static const String assetsLefta = 'assets/lefta.png';
   static const String assetsMain = 'assets/main.png';
+  static const String assetsMenu = 'assets/menu.png';
+  static const String assetsMenuPremium = 'assets/menuPremium.png';
   static const String assetsMoney = 'assets/money.png';
   static const String assetsPick = 'assets/pick.png';
   static const String assetsRemove = 'assets/remove.png';

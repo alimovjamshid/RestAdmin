@@ -53,7 +53,11 @@ class _BronPageState extends State<BronPage> {
               children: [
                 CustomIconButton(
                   onPressed: () {
-                    CustomCalendarDialog(context);
+                    CustomCalendarDialog(context,(p0) {
+
+                    },(p0) {
+
+                    },);
                   },
                   imageIcon: "assets/calendar.png",
                   height: 35,

@@ -21,9 +21,9 @@ class OldText extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text("Umumiy summa",style: TextStyle(color: Colors.white,fontSize: 16)),
+          Text(text1,style: TextStyle(color: Colors.white,fontSize: 16)),
           Container(width: 1,color: Colors.white,),
-          Text("5 000 000",style: TextStyle(color: Colors.white,fontSize: 16),)
+          Text(text2,style: TextStyle(color: Colors.white,fontSize: 16),)
         ],
       ),
     );

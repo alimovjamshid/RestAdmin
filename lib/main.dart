@@ -52,7 +52,7 @@ class _MyAppState extends State<MyApp> {
         drawerEnableOpenDragGesture: false,
         endDrawer: const AppDrawer(),
         key: utils.scaffoldKey,
-        backgroundColor: const Color(0xFFEBE8E8),
+        backgroundColor: colorBackground,
         body: _list[_selectedIndex],
         bottomNavigationBar: ClipRRect(
           borderRadius: const BorderRadius.only(

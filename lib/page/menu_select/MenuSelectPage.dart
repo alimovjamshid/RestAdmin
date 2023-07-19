@@ -68,7 +68,10 @@ class _MenuSelectPageState extends State<MenuSelectPage> {
               children: [
                 CustomIconButton(
                   onPressed: () {
-                    CustomCalendarDialog(context);
+                    CustomCalendarDialog(context,(p0) {},(value) {setState(() {
+                      // selectYear = value!;
+                      // year = int.parse(value);
+                    });},);
                   },
                   imageIcon: "assets/calendar.png",
                   height: 35,
