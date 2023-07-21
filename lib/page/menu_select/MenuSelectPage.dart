@@ -8,6 +8,7 @@ import 'package:restadmin/page/menu_select/widgets/OldText.dart';
 import 'package:restadmin/page/menu_select/widgets/SelectFood.dart';
 import 'package:restadmin/page/menu_select/widgets/SelectService.dart';
 import 'package:restadmin/page/menu_select/widgets/SelectWaiter.dart';
+import 'package:table_calendar/table_calendar.dart';
 import '../../Utils.dart';
 import '../bron/widgets/BronElevatedButton.dart';
 import '../bron/widgets/CustomAppBar.dart';
@@ -24,7 +25,7 @@ class MenuSelectPage extends StatefulWidget {
 }
 
 class _MenuSelectPageState extends State<MenuSelectPage> {
-  DateTime _focusedDay = DateTime.now();
+  DateTime _focusedDay = DateTime.utc(year,month,day);
   final ExpandableController defaultExpandableController = ExpandableController();
   final ExpandableController premiumExpandableController = ExpandableController();
 
@@ -109,16 +110,25 @@ class _MenuSelectPageState extends State<MenuSelectPage> {
                       year = int.parse(value);
                     });
                   } ,selectValue: selectYear,list: listYears),
-                  CustomCalendar(onPressed: (focusedDay) {
+                  CustomCalendar(onPressed: (day) {
                     setState(() {
-                      month = focusedDay.month;
+                      month = day.month;
                       debugPrint(month.toString());
                       for(int i=0;i<partMonth.length;i++){
                         partMonth[i] = month-1==i;
                       }
                       debugPrint(partMonth.toString());
                     });
-                  },focusedDay: DateTime.utc(year,month,day), selectedDays: _selectedDays),
+                  return isSameDay(day, day);
+                  },onDaySelected: (selectedDay, focusDay) {
+                    setState(() {
+                      // selectedDay = focusDay;
+                      // _selectedDays = selectedDay;
+                      
+                      _focusedDay = focusDay;
+                      // day = selectedDay.day;
+                    });
+                  },focusedDay: _focusedDay, selectedDays: _selectedDays),
                   SizedBox(
                     height: 10,
                   ),

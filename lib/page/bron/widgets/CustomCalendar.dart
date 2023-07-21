@@ -11,12 +11,13 @@ class CustomCalendar extends StatelessWidget {
    CustomCalendar({
     super.key,
     required DateTime focusedDay,
-    required Set<DateTime> selectedDays, required this.onPressed,
+    required Set<DateTime> selectedDays, required this.onPressed, required this.onDaySelected,
   }) : _focusedDay = focusedDay, _selectedDays = selectedDays;
 
    DateTime _focusedDay;
   final Set<DateTime> _selectedDays;
   final Function(DateTime) onPressed;
+  final Function(DateTime,DateTime) onDaySelected;
 
   @override
   Widget build(BuildContext context) {
@@ -89,13 +90,14 @@ class CustomCalendar extends StatelessWidget {
       rangeSelectionMode: RangeSelectionMode.toggledOn,
       onPageChanged: onPressed,
       selectedDayPredicate: (day) => _selectedDays.contains(day),
-      onDaySelected: (selectedDay, focusedDay) {
-        if (_selectedDays.contains(selectedDay)) {
-          OldBronDialog(context, selectedDay.month, selectedDay.day);
-        } else {
-          NewBronDialog(context,selectedDay.month,selectedDay.day);
-        }
-      },
+      onDaySelected: onDaySelected
+          // (selectedDay, focusedDay) {
+        // if (_selectedDays.contains(selectedDay)) {
+        //   OldBronDialog(context, selectedDay.month, selectedDay.day);
+        // } else {
+        //   NewBronDialog(context,selectedDay.month,selectedDay.day);
+        // }
+      // },
     );
   }
 }

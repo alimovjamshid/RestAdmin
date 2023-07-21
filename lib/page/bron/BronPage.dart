@@ -53,8 +53,11 @@ class _BronPageState extends State<BronPage> {
               children: [
                 CustomIconButton(
                   onPressed: () {
-                    CustomCalendarDialog(context,(p0) {
-
+                    CustomCalendarDialog(context,(value) {
+                      setState(() {
+                        selectYear = value as String;
+                        year = int.parse(value as String);
+                      });
                     },(p0) {
 
                     },);
@@ -107,6 +110,8 @@ class _BronPageState extends State<BronPage> {
                       }
                       debugPrint(partMonth.toString());
                     });
+                  },onDaySelected: (p0, p1) {
+
                   },focusedDay: DateTime.utc(year,month,day), selectedDays: _selectedDays),
 
                   SizedBox(

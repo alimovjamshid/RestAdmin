@@ -10,11 +10,16 @@ import 'package:restadmin/page/home/widgets/CustomIconButton.dart';
 import 'package:restadmin/page/home/widgets/CustomText.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
 
 
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -64,8 +69,11 @@ class HomePage extends StatelessWidget {
               children: [
                 CustomIconButton(
                   onPressed: () {
-                    CustomCalendarDialog(context,(p0) {
-
+                    CustomCalendarDialog(context,(value) {
+                      setState(() {
+                        selectYear = value as String;
+                        year = int.parse(selectYear);
+                      });
                     },(p0) {
 
                     },);

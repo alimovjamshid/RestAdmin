@@ -14,17 +14,29 @@ void CustomCalendarDialog(BuildContext context,Function(DateTime) onPressedDay,F
     useRootNavigator: true,
     context: context,
     builder: (BuildContext context) {
-      return Dialog(
-        insetPadding: EdgeInsets.symmetric(horizontal: 20),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Dropdown(onPressed: onPressedDropdown,selectValue: selectYear,list: listYears),
+      return StatefulBuilder(
+        builder: (context, setState) {
+          return Dialog(
+            insetPadding: EdgeInsets.symmetric(horizontal: 20),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Dropdown(onPressed: (value) {
+                  setState(() {
+                    selectYear = value!;
+                    year = int.parse(value);
+                  });
+                },selectValue: selectYear,list: listYears),
 
-            CustomCalendar(onPressed: onPressedDay, focusedDay: DateTime.utc(year,month,day), selectedDays: selectedDays),
-          ],
-        ),
+                CustomCalendar(onPressed: onPressedDay,onDaySelected: (p0, p1) {
+
+                } ,focusedDay: DateTime.utc(year,month,day), selectedDays: selectedDays),
+              ],
+            ),
+          );
+        },
+
       );
     },
   );
