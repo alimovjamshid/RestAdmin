@@ -68,27 +68,30 @@ void NewBronDialog(BuildContext context, int month, int day,){
                   SizedBox(
                     height: 20,
                   ),
-                  NewTextField(text: "I.F.SH"),
+                  NewTextField(
+                      textEditingController: TextEditingController(),
+                      text: "I.F.SH"),
                   SizedBox(
                     height: 10,
                   ),
-                  NewTextField(text: "Telefon raqam"),
+                  NewTextField(
+                      textEditingController: TextEditingController(),text: "Telefon raqam"),
                   SizedBox(
                     height: 10,
                   ),
-                  NewTextField(text: "2-telefon raqam"),
+                  NewTextField(textEditingController: TextEditingController(),text: "2-telefon raqam"),
                   SizedBox(
                     height: 10,
                   ),
-                  NewTextField(text: "Berilgan zaklat"),
+                  NewTextField(textEditingController: TextEditingController(),text: "Berilgan zaklat"),
                   SizedBox(
                     height: 10,
                   ),
-                  NewTextField(text: "Manzil"),
+                  NewTextField(textEditingController: TextEditingController(),text: "Manzil"),
                   SizedBox(
                     height: 10,
                   ),
-                  NewTextField(text: "Qo'shimcha ma'lumotlar",),
+                  NewTextField(textEditingController: TextEditingController(),text: "Qo'shimcha ma'lumotlar",),
                   SizedBox(
                     height: 10,
                   ),

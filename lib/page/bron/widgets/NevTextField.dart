@@ -5,8 +5,9 @@ import '../../../Utils.dart';
 
 class NewTextField extends StatelessWidget {
   final String text;
+  final TextEditingController textEditingController;
   const NewTextField({
-    super.key, required this.text,
+    super.key, required this.text, required this.textEditingController,
   });
 
   @override
@@ -14,6 +15,7 @@ class NewTextField extends StatelessWidget {
     return SizedBox(
       height: 45,
       child: TextField(
+        controller: textEditingController,
         style: TextStyle(fontSize: 18),
         keyboardType: TextInputType.text,
         scrollPadding: EdgeInsets.zero,
