@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="uz.restaurant.restadmin">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="restadmin"
         android:name="${applicationName}"

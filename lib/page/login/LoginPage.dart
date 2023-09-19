@@ -1,17 +1,15 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restadmin/Utils.dart';
 import 'package:restadmin/page/bron/widgets/NevTextField.dart';
-import 'package:restadmin/page/home/HomePage.dart';
 import 'package:restadmin/page/home/widgets/CustomELevetedButton.dart';
-import 'package:restadmin/page/home/widgets/CustomText.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../main.dart';
 import '../home/widgets/CustomIconButton.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({super.key});
+
   var errorText = "";
 
   @override
@@ -19,15 +17,20 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final dio = Dio();
+  final loginController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    loginController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-
-    final loginController = TextEditingController();
-    final passwordController = TextEditingController();
 
     return SafeArea(
       child: Stack(
@@ -64,7 +67,8 @@ class _LoginPageState extends State<LoginPage> {
             scrollDirection: Axis.vertical,
             child: Container(
               height: height - 210,
-              margin: EdgeInsets.only(top: 100, left: 20, right: 20, bottom: 30),
+              margin:
+                  EdgeInsets.only(top: 100, left: 20, right: 20, bottom: 30),
               decoration: ShapeDecoration(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
@@ -86,7 +90,8 @@ class _LoginPageState extends State<LoginPage> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: NewTextField(
-                          textEditingController: loginController, text: "Login"),
+                          textEditingController: loginController,
+                          text: "Login"),
                     ),
                     SizedBox(
                       height: 10,
@@ -94,7 +99,8 @@ class _LoginPageState extends State<LoginPage> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: NewTextField(
-                          textEditingController: passwordController, text: "Parol"),
+                          textEditingController: passwordController,
+                          text: "Parol"),
                     ),
                     SizedBox(
                       height: 20,
@@ -118,39 +124,25 @@ class _LoginPageState extends State<LoginPage> {
                     CustomElevatedButton(
                         text: "Tasdiqlash",
                         onPressed: () async {
-                          try {
-                            final prefs = await SharedPreferences.getInstance();
-                            debugPrint(loginController.text);
-                            final response = await dio.post(
-                                "https://wedding-halls-production.up.railway.app/auth",
-                                // data: {
-                                //   'email': loginController.text.toString(),
-                                //   'password': passwordController.text.toString()
-                                // });
-                            data: {
-                              'email': "smomimjonov20@gmail.com",
-                              'password': "11111111"
-                            });
-                            print("response : " + response.toString());
-                            print("token    :    ${response.data['token']}");
-
-                            if (response.statusCode == 201) {
-                              Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                      builder: (context) => const MyApp()),
-                                      (route) => false);
-                              prefs.setString(login, "smomimjonov20@gmail.com");
-                              // prefs.setString(login, loginController.text.toString());
-                              prefs.setString(password, "11111111");
-                              // prefs.setString(password, parolController.text.toString());
-                              prefs.setString(token, response.data['token']);
+                          final prefs = await SharedPreferences.getInstance();
+                          await auth(loginController.text.toString(),passwordController.text.toString()).then((value) {
+                            if (value.statusCode == 201) {
+                              setState(() {
+                                Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(
+                                        builder: (context) => const MyApp()),
+                                        (route) => false);
+                                prefs.setString(login, loginController.text.toString());
+                                prefs.setString(password, passwordController.text.toString());
+                                prefs.setString(token, value.data['token']);
+                              });
                             }
-                          } catch(e){
-                            print(e.toString());
+                          }).onError((error, stackTrace) {
+                            debugPrint("xato");
                             setState(() {
                               widget.errorText = "Login yoki parol xato";
                             });
-                          }
+                          });
                         },
                         borderRadius: 6,
                         textSize: 16,
@@ -158,8 +150,13 @@ class _LoginPageState extends State<LoginPage> {
                         buttonWidth: 180,
                         color: colorGreen2,
                         textColor: Colors.white),
-                    SizedBox(height: 10,),
-                    Text(widget.errorText,style: TextStyle(color: Colors.red),)
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      widget.errorText,
+                      style: TextStyle(color: Colors.red),
+                    )
                   ],
                 ),
               ),

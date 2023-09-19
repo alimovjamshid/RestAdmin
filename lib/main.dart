@@ -12,17 +12,18 @@ import 'AppDrawer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final dio = Dio();
   final prefs = await SharedPreferences.getInstance();
   var tok = prefs.getString(token);
   var log = prefs.getString(login);
   var pass = prefs.getString(password);
+  authToken = tok!;
   if (log != null) {
     final response = await dio.post(
         "https://wedding-halls-production.up.railway.app/auth",
         data: {'email': log, 'password': pass});
     if (response.statusCode == 201) {
       prefs.setString(token, response.data['token']);
+      authToken = response.data['token'];
     }
   }
   initializeDateFormatting().then((_) => runApp(tok == null ?const LoginApp():const MyApp()));
