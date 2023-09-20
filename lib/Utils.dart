@@ -37,6 +37,8 @@ final months = [
   "Dekabr"
 ];
 
+final partOfDay = ["morning", "afternoon", "evening"];
+
 int day = DateTime.now().day;
 int month = DateTime.now().month;
 int year = DateTime.now().year;
@@ -68,8 +70,6 @@ final List<bool> partMonth = [
 
 final Set<DateTime> selectedDays = <DateTime>{};
 
-const password = 'password';
-const login = 'login';
 const token = 'token';
 var authToken = "";
 
@@ -94,6 +94,18 @@ Future<Response> auth(String login, String password) async {
     return response;
   } on DioError catch (e) {
     return dio.post("path");
+  }
+}
+
+Future<Response> authRefresh(String auth) async {
+  try {
+    var data = {'refreshToken': auth};
+    var response = await dio.post(
+        "https://wedding-halls-production.up.railway.app/auth/refresh",
+        data: data);
+    return response;
+  } on DioError catch (e) {
+    return dio.get("path");
   }
 }
 

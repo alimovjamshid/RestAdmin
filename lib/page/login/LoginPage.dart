@@ -132,8 +132,6 @@ class _LoginPageState extends State<LoginPage> {
                                     MaterialPageRoute(
                                         builder: (context) => const MyApp()),
                                         (route) => false);
-                                prefs.setString(login, loginController.text.toString());
-                                prefs.setString(password, passwordController.text.toString());
                                 prefs.setString(token, value.data['token']);
                               });
                             }

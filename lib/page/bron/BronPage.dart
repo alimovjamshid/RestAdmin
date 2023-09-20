@@ -5,6 +5,8 @@ import 'package:restadmin/page/bron/widgets/BronElevatedButton.dart';
 import 'package:restadmin/page/bron/widgets/CustomAppBar.dart';
 import 'package:restadmin/page/bron/widgets/CustomCalendar.dart';
 import 'package:restadmin/page/bron/widgets/MonthElevatedButton.dart';
+import 'package:restadmin/page/bron/widgets/NewBronDialog.dart';
+import 'package:restadmin/page/bron/widgets/OldBronDialog.dart';
 import '../../Utils.dart';
 import '../home/widgets/CustomCalendarDialog.dart';
 import '../home/widgets/CustomIconButton.dart';
@@ -17,26 +19,35 @@ class BronPage extends StatefulWidget {
   State<BronPage> createState() => _BronPageState();
 }
 
-class _BronPageState extends State<BronPage> {
-
+class _BronPageState extends State<BronPage> with TickerProviderStateMixin{
   final Set<DateTime> _selectedDays = <DateTime>{};
 
   @override
   void initState() {
-    BronPage();
+    const BronPage();
     super.initState();
+    calendarSet("$year", "$month", "afternoon");
+  }
+
+  Future<void> calendarSet(String year, String month, String partOfDay) async {
+    await weddingsGetPartOfDay(year, month, partOfDay).then((value) {
+      var data = value.data as List;
+      debugPrint(data.toString());
+      for (var element in data) {
+        debugPrint(element.toString());
+        var time = DateTime.parse(element['date']).toUtc();
+        _selectedDays.add(DateTime.utc(time.year,time.month,time.day));
+      }
+      setState(() {
+        _selectedDays;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-
-    _selectedDays.add(DateTime.utc(2023, 07, 6));
-    _selectedDays.add(DateTime.utc(2023, 07, 10));
-    _selectedDays.add(DateTime.utc(2023, 07, 17));
-    _selectedDays.add(DateTime.utc(2023, 07, 23));
-
     return SafeArea(
       child: Stack(
         children: [
@@ -53,14 +64,16 @@ class _BronPageState extends State<BronPage> {
               children: [
                 CustomIconButton(
                   onPressed: () {
-                    CustomCalendarDialog(context,(value) {
-                      setState(() {
-                        selectYear = value as String;
-                        year = int.parse(value as String);
-                      });
-                    },(p0) {
-
-                    },);
+                    CustomCalendarDialog(
+                      context,
+                      (value) {
+                        setState(() {
+                          selectYear = value as String;
+                          year = int.parse(value as String);
+                        });
+                      },
+                      (p0) {},
+                    );
                   },
                   imageIcon: "assets/calendar.png",
                   height: 35,
@@ -94,26 +107,37 @@ class _BronPageState extends State<BronPage> {
               child: Column(
                 children: [
                   CustomAppBar(text: "Band qilish"),
-                  Dropdown(onPressed: (value) {
-                    setState(() {
-                      selectYear = value!;
-                      year = int.parse(value);
-                    });
-                  } ,selectValue: selectYear,list: listYears),
-
-                  CustomCalendar(onPressed: (focusedDay) {
-                    setState(() {
-                      month = focusedDay.month;
-                      debugPrint(month.toString());
-                      for(int i=0;i<partMonth.length;i++){
-                        partMonth[i] = month-1==i;
-                      }
-                      debugPrint(partMonth.toString());
-                    });
-                  },onDaySelected: (p0, p1) {
-
-                  },focusedDay: DateTime.utc(year,month,day), selectedDays: _selectedDays),
-
+                  Dropdown(
+                      onPressed: (value) {
+                        setState(() {
+                          selectYear = value!;
+                          year = int.parse(value);
+                        });
+                      },
+                      selectValue: selectYear,
+                      list: listYears),
+                  CustomCalendar(
+                      onPressed: (focusedDay) {
+                        setState(() {
+                          month = focusedDay.month;
+                          debugPrint(month.toString());
+                          for (int i = 0; i < partMonth.length; i++) {
+                            partMonth[i] = month - 1 == i;
+                          }
+                          debugPrint(partMonth.toString());
+                        });
+                      },
+                      onDaySelected: (selectedDay, focusedDay) {
+                        if (_selectedDays.contains(selectedDay)) {
+                          OldBronDialog(
+                              context, selectedDay.month, selectedDay.day);
+                        } else {
+                          NewBronDialog(
+                              context, selectedDay.month, selectedDay.day);
+                        }
+                      },
+                      focusedDay: DateTime.utc(year, month, day),
+                      selectedDays: _selectedDays),
                   SizedBox(
                     height: 10,
                   ),
@@ -125,10 +149,15 @@ class _BronPageState extends State<BronPage> {
                         BronELevatedButton(
                             onPressed: () {
                               setState(() {
-                                partDay[0] = !partDay[0];
+                                // partDay[0] = !partDay[0];
+                                partDay[0]=true;
                                 partDay[1] = false;
                                 partDay[2] = false;
                                 debugPrint(partDay.toString());
+                              });
+                              calendarSet("$year", "$month", partOfDay[0]);
+                              setState(() {
+                                _selectedDays.clear();
                               });
                             },
                             text: "Tongi",
@@ -140,10 +169,15 @@ class _BronPageState extends State<BronPage> {
                         BronELevatedButton(
                           onPressed: () {
                             setState(() {
-                              partDay[1] = !partDay[1];
+                              // partDay[1] = !partDay[1];
+                              partDay[1] = true;
                               partDay[0] = false;
                               partDay[2] = false;
                               debugPrint(partDay.toString());
+                            });
+                            calendarSet("$year", "$month", partOfDay[1]);
+                            setState(() {
+                              _selectedDays.clear();
                             });
                           },
                           text: "Kunduzgi",
@@ -156,10 +190,15 @@ class _BronPageState extends State<BronPage> {
                         BronELevatedButton(
                             onPressed: () {
                               setState(() {
-                                partDay[2] = !partDay[2];
+                                // partDay[2] = !partDay[2];
+                                partDay[2] = true;
                                 partDay[1] = false;
                                 partDay[0] = false;
                                 debugPrint(partDay.toString());
+                              });
+                              calendarSet("$year", "$month", partOfDay[2]);
+                              setState(() {
+                                _selectedDays.clear();
                               });
                             },
                             text: "Kechki",
@@ -190,32 +229,41 @@ class _BronPageState extends State<BronPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         MonthElevatedButton(
-                            onPressed: (){
+                            onPressed: () {
                               setState(() {
-                                for(int i=0;i<partMonth.length;i++){
-                                  partMonth[i] = 0==i;
+                                for (int i = 0; i < partMonth.length; i++) {
+                                  partMonth[i] = 0 == i;
                                 }
                               });
                               month = 1;
-                            },text: months[0], radius: 40, select: partMonth[0]),
+                            },
+                            text: months[0],
+                            radius: 40,
+                            select: partMonth[0]),
                         MonthElevatedButton(
-                            onPressed: (){
+                            onPressed: () {
                               setState(() {
-                                for(int i=0;i<partMonth.length;i++){
-                                  partMonth[i] = 1==i;
+                                for (int i = 0; i < partMonth.length; i++) {
+                                  partMonth[i] = 1 == i;
                                 }
                               });
                               month = 2;
-                            },text: months[1], radius: 40, select: partMonth[1]),
+                            },
+                            text: months[1],
+                            radius: 40,
+                            select: partMonth[1]),
                         MonthElevatedButton(
-                            onPressed: (){
+                            onPressed: () {
                               setState(() {
-                                for(int i=0;i<partMonth.length;i++){
-                                  partMonth[i] = 2==i;
+                                for (int i = 0; i < partMonth.length; i++) {
+                                  partMonth[i] = 2 == i;
                                 }
                               });
                               month = 3;
-                            },text: months[2], radius: 40, select: partMonth[2]),
+                            },
+                            text: months[2],
+                            radius: 40,
+                            select: partMonth[2]),
                       ],
                     ),
                   ),
@@ -225,32 +273,41 @@ class _BronPageState extends State<BronPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         MonthElevatedButton(
-                            onPressed: (){
+                            onPressed: () {
                               setState(() {
-                                for(int i=0;i<partMonth.length;i++){
-                                  partMonth[i] = 3==i;
+                                for (int i = 0; i < partMonth.length; i++) {
+                                  partMonth[i] = 3 == i;
                                 }
                               });
                               month = 4;
-                            },text: months[3], radius: 40, select: partMonth[3]),
+                            },
+                            text: months[3],
+                            radius: 40,
+                            select: partMonth[3]),
                         MonthElevatedButton(
-                            onPressed: (){
+                            onPressed: () {
                               setState(() {
-                                for(int i=0;i<partMonth.length;i++){
-                                  partMonth[i] = 4==i;
+                                for (int i = 0; i < partMonth.length; i++) {
+                                  partMonth[i] = 4 == i;
                                 }
                               });
                               month = 5;
-                            },text: months[4], radius: 40, select: partMonth[4]),
+                            },
+                            text: months[4],
+                            radius: 40,
+                            select: partMonth[4]),
                         MonthElevatedButton(
-                            onPressed: (){
+                            onPressed: () {
                               setState(() {
-                                for(int i=0;i<partMonth.length;i++){
-                                  partMonth[i] = 5==i;
+                                for (int i = 0; i < partMonth.length; i++) {
+                                  partMonth[i] = 5 == i;
                                 }
                               });
-                              month=6;
-                            },text: months[5], radius: 40, select: partMonth[5]),
+                              month = 6;
+                            },
+                            text: months[5],
+                            radius: 40,
+                            select: partMonth[5]),
                       ],
                     ),
                   ),
@@ -260,32 +317,41 @@ class _BronPageState extends State<BronPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         MonthElevatedButton(
-                            onPressed: (){
+                            onPressed: () {
                               setState(() {
-                                for(int i=0;i<partMonth.length;i++){
-                                  partMonth[i] = 6==i;
+                                for (int i = 0; i < partMonth.length; i++) {
+                                  partMonth[i] = 6 == i;
                                 }
                               });
                               month = 7;
-                            },text: months[6], radius: 40, select: partMonth[6]),
+                            },
+                            text: months[6],
+                            radius: 40,
+                            select: partMonth[6]),
                         MonthElevatedButton(
-                            onPressed: (){
+                            onPressed: () {
                               setState(() {
-                                for(int i=0;i<partMonth.length;i++){
-                                  partMonth[i] = 7==i;
+                                for (int i = 0; i < partMonth.length; i++) {
+                                  partMonth[i] = 7 == i;
                                 }
                               });
                               month = 8;
-                            },text: months[7], radius: 40, select: partMonth[7]),
+                            },
+                            text: months[7],
+                            radius: 40,
+                            select: partMonth[7]),
                         MonthElevatedButton(
-                            onPressed: (){
+                            onPressed: () {
                               setState(() {
-                                for(int i=0;i<partMonth.length;i++){
-                                  partMonth[i] = 8==i;
+                                for (int i = 0; i < partMonth.length; i++) {
+                                  partMonth[i] = 8 == i;
                                 }
                               });
                               month = 9;
-                            },text: months[8], radius: 40, select: partMonth[8]),
+                            },
+                            text: months[8],
+                            radius: 40,
+                            select: partMonth[8]),
                       ],
                     ),
                   ),
@@ -295,32 +361,41 @@ class _BronPageState extends State<BronPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         MonthElevatedButton(
-                            onPressed: (){
+                            onPressed: () {
                               setState(() {
-                                for(int i=0;i<partMonth.length;i++){
-                                  partMonth[i] = 9==i;
+                                for (int i = 0; i < partMonth.length; i++) {
+                                  partMonth[i] = 9 == i;
                                 }
                               });
                               month = 10;
-                            },text: months[9], radius: 40, select: partMonth[9]),
+                            },
+                            text: months[9],
+                            radius: 40,
+                            select: partMonth[9]),
                         MonthElevatedButton(
-                            onPressed: (){
+                            onPressed: () {
                               setState(() {
-                                for(int i=0;i<partMonth.length;i++){
-                                  partMonth[i] = 10==i;
+                                for (int i = 0; i < partMonth.length; i++) {
+                                  partMonth[i] = 10 == i;
                                 }
                               });
                               month = 11;
-                            },text: months[10], radius: 40, select: partMonth[10]),
+                            },
+                            text: months[10],
+                            radius: 40,
+                            select: partMonth[10]),
                         MonthElevatedButton(
-                            onPressed: (){
+                            onPressed: () {
                               setState(() {
-                                for(int i=0;i<partMonth.length;i++){
-                                  partMonth[i] = 11==i;
+                                for (int i = 0; i < partMonth.length; i++) {
+                                  partMonth[i] = 11 == i;
                                 }
                               });
                               month = 12;
-                            },text: months[11], radius: 40, select: partMonth[11]),
+                            },
+                            text: months[11],
+                            radius: 40,
+                            select: partMonth[11]),
                       ],
                     ),
                   ),

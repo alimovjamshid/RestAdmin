@@ -18,7 +18,7 @@ class CustomCalendar extends StatelessWidget {
   final Set<DateTime> _selectedDays;
   final Function(DateTime) onPressed;
   final Function(DateTime,DateTime) onDaySelected;
-
+   CalendarFormat _calendarFormat = CalendarFormat.month;
   @override
   Widget build(BuildContext context) {
     return TableCalendar(
@@ -89,15 +89,14 @@ class CustomCalendar extends StatelessWidget {
       lastDay: DateTime.utc(2030,12,31),
       rangeSelectionMode: RangeSelectionMode.toggledOn,
       onPageChanged: onPressed,
-      selectedDayPredicate: (day) => _selectedDays.contains(day),
-      onDaySelected: onDaySelected
-          // (selectedDay, focusedDay) {
-        // if (_selectedDays.contains(selectedDay)) {
-        //   OldBronDialog(context, selectedDay.month, selectedDay.day);
-        // } else {
-        //   NewBronDialog(context,selectedDay.month,selectedDay.day);
-        // }
-      // },
+      selectedDayPredicate: (day) {
+        return _selectedDays.contains(day);
+        // return isSameDay(day, _focusedDay);
+      },
+      onDaySelected: onDaySelected,
+      onFormatChanged: (format) {
+        _calendarFormat = format;
+      },
     );
   }
 }

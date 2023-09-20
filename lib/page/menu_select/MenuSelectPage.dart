@@ -110,25 +110,25 @@ class _MenuSelectPageState extends State<MenuSelectPage> {
                       year = int.parse(value);
                     });
                   } ,selectValue: selectYear,list: listYears),
-                  CustomCalendar(onPressed: (day) {
-                    setState(() {
-                      month = day.month;
-                      debugPrint(month.toString());
-                      for(int i=0;i<partMonth.length;i++){
-                        partMonth[i] = month-1==i;
-                      }
-                      debugPrint(partMonth.toString());
-                    });
-                  return isSameDay(day, day);
-                  },onDaySelected: (selectedDay, focusDay) {
-                    setState(() {
-                      // selectedDay = focusDay;
-                      // _selectedDays = selectedDay;
-                      
-                      _focusedDay = focusDay;
-                      // day = selectedDay.day;
-                    });
-                  },focusedDay: _focusedDay, selectedDays: _selectedDays),
+                  // CustomCalendar(onPressed: (day) {
+                  //   setState(() {
+                  //     month = day.month;
+                  //     debugPrint(month.toString());
+                  //     for(int i=0;i<partMonth.length;i++){
+                  //       partMonth[i] = month-1==i;
+                  //     }
+                  //     debugPrint(partMonth.toString());
+                  //   });
+                  // return isSameDay(day, day);
+                  // },onDaySelected: (selectedDay, focusDay) {
+                  //   setState(() {
+                  //     // selectedDay = focusDay;
+                  //     // _selectedDays = selectedDay;
+                  //
+                  //     _focusedDay = focusDay;
+                  //     // day = selectedDay.day;
+                  //   });
+                  // },focusedDay: _focusedDay, selectedDays: _selectedDays),
                   SizedBox(
                     height: 10,
                   ),

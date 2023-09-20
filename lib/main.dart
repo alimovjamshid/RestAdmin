@@ -13,20 +13,17 @@ import 'AppDrawer.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
-  var tok = prefs.getString(token);
-  var log = prefs.getString(login);
-  var pass = prefs.getString(password);
-  authToken = tok!;
-  if (log != null) {
-    final response = await dio.post(
-        "https://wedding-halls-production.up.railway.app/auth",
-        data: {'email': log, 'password': pass});
-    if (response.statusCode == 201) {
-      prefs.setString(token, response.data['token']);
-      authToken = response.data['token'];
-    }
+  var tok = prefs.getString(token).toString();
+  authToken = tok;
+  // ignore: unnecessary_null_comparison
+  initializeDateFormatting().then((_) => runApp(tok == "null" ?const LoginApp():const MyApp()));
+  if (tok != null) {
+    await authRefresh(authToken).then((value) {
+      if(value.statusCode==201){
+        prefs.setString(token, value.data['refreshToken']);
+      }
+    });
   }
-  initializeDateFormatting().then((_) => runApp(tok == null ?const LoginApp():const MyApp()));
   dateSelect();
 }
 

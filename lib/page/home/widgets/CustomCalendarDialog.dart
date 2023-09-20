@@ -29,9 +29,10 @@ void CustomCalendarDialog(BuildContext context,Function(DateTime) onPressedDay,F
                   });
                 },selectValue: selectYear,list: listYears),
 
-                CustomCalendar(onPressed: onPressedDay,onDaySelected: (p0, p1) {
-
-                } ,focusedDay: DateTime.utc(year,month,day), selectedDays: selectedDays),
+                // CustomCalendar(onPressed: onPressedDay,onDaySelected: (p0, p1) {
+                //
+                // } ,focusedDay: DateTime.utc(year,month,day),
+                //     selectedDays: List<DateTime>),
               ],
             ),
           );
