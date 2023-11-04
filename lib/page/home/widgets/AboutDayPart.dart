@@ -19,62 +19,112 @@ class AboutDayPart extends StatelessWidget {
       ),
       expanded: Column(
         children: [
-          OldTextField(text: "Tel raqam", width: 165, textColor: colorText),
-          SizedBox(height: 10,),
-          OldTextField(text: "Qo'shimcha raqam", width: 165, textColor: colorText),
-          SizedBox(height: 10,),
-          OldTextField(text: "Manzil", width: 165, textColor: colorText),
-          SizedBox(height: 10,),
-          OldTextField(text: "Oldindan to'lov", width: 165, textColor: colorText),
-          SizedBox(height: 10,),
-          OldTextField(text: "To'langan summa", width: 165, textColor: colorText),
-          SizedBox(height: 10,),
-          OldTextField(text: "Offitsiantlar soni", width: 165, textColor: colorText),
-          SizedBox(height: 10,),
-          OldTextField(text: "Mehmonlar soni", width: 165, textColor: colorText),
-          SizedBox(height: 10,),
-          OldTextField(text: "Boshlanish soni", width: 165, textColor: colorText),
-          SizedBox(height: 30,),
-
+          OldTextField(
+              textEditingController: TextEditingController(),
+              text: "Tel raqam",
+              width: 165,
+              textColor: colorText),
+          SizedBox(
+            height: 10,
+          ),
+          OldTextField(
+              textEditingController: TextEditingController(),
+              text: "Qo'shimcha raqam",
+              width: 165,
+              textColor: colorText),
+          SizedBox(
+            height: 10,
+          ),
+          OldTextField(textEditingController: TextEditingController(),text: "Manzil", width: 165, textColor: colorText),
+          SizedBox(
+            height: 10,
+          ),
+          OldTextField(
+            textEditingController: TextEditingController(),
+              text: "Oldindan to'lov", width: 165, textColor: colorText),
+          SizedBox(
+            height: 10,
+          ),
+          OldTextField(
+            textEditingController: TextEditingController(),
+              text: "To'langan summa", width: 165, textColor: colorText),
+          SizedBox(
+            height: 10,
+          ),
+          OldTextField(
+            textEditingController: TextEditingController(),
+              text: "Offitsiantlar soni", width: 165, textColor: colorText),
+          SizedBox(
+            height: 10,
+          ),
+          OldTextField(
+            textEditingController: TextEditingController(),
+              text: "Mehmonlar soni", width: 165, textColor: colorText),
+          SizedBox(
+            height: 10,
+          ),
+          OldTextField(
+            textEditingController: TextEditingController(),
+              text: "Boshlanish soni", width: 165, textColor: colorText),
+          SizedBox(
+            height: 30,
+          ),
           Align(
               alignment: Alignment.centerLeft,
               child: Padding(
                   padding: const EdgeInsets.only(left: 10),
-                  child: Text("Tanlangan menu",style: TextStyle(fontSize: 16,color: Colors.black)))),
-
-          SizedBox(height: 20,),
-          OldTextField(text: "Birinchi taom", width: 165, textColor: colorText),
-          SizedBox(height: 10,),
-          OldTextField(text: "Ikkinchi taom", width: 165, textColor: colorText),
-          SizedBox(height: 10,),
-          OldTextField(text: "Standart menu", width: 165, textColor: colorText),
-          SizedBox(height: 10,),
-          OldTextField(text: "Bozorlik ro'yxati", width: 165, textColor: colorText),
-          SizedBox(height: 30,),
-
+                  child: Text("Tanlangan menu",
+                      style: TextStyle(fontSize: 16, color: Colors.black)))),
+          SizedBox(
+            height: 20,
+          ),
+          OldTextField(textEditingController: TextEditingController(),text: "Birinchi taom", width: 165, textColor: colorText),
+          SizedBox(
+            height: 10,
+          ),
+          OldTextField(textEditingController: TextEditingController(),text: "Ikkinchi taom", width: 165, textColor: colorText),
+          SizedBox(
+            height: 10,
+          ),
+          OldTextField(textEditingController: TextEditingController(),text: "Standart menu", width: 165, textColor: colorText),
+          SizedBox(
+            height: 10,
+          ),
+          OldTextField(
+              textEditingController: TextEditingController(),text: "Bozorlik ro'yxati", width: 165, textColor: colorText),
+          SizedBox(
+            height: 30,
+          ),
           Align(
               alignment: Alignment.centerLeft,
               child: Padding(
                   padding: const EdgeInsets.only(left: 10),
-                  child: Text("Tanlangan menu",style: TextStyle(fontSize: 16,color: Colors.black)))),
-
-          SizedBox(height: 20,),
-          OldTextField(text: "Sveta-muzika", width: 165, textColor: colorText),
-          SizedBox(height: 10,),
-          OldTextField(text: "Qo'shimcha offitsiantlar", width: 165, textColor: colorText),
-
-          SizedBox(height: 30,)
+                  child: Text("Tanlangan menu",
+                      style: TextStyle(fontSize: 16, color: Colors.black)))),
+          SizedBox(
+            height: 20,
+          ),
+          OldTextField(textEditingController: TextEditingController(),text: "Sveta-muzika", width: 165, textColor: colorText),
+          SizedBox(
+            height: 10,
+          ),
+          OldTextField(
+              textEditingController: TextEditingController(),text: "Qo'shimcha offitsiantlar",
+              width: 165,
+              textColor: colorText),
+          SizedBox(
+            height: 30,
+          )
         ],
       ),
-      header: Text("Alimov Shuxrat -07:00/09:00-Ayollar bazmi",textAlign: TextAlign.center),
+      header: Text("Alimov Shuxrat -07:00/09:00-Ayollar bazmi",
+          textAlign: TextAlign.center),
       theme: ExpandableThemeData(
           hasIcon: true,
           iconColor: colorGreen3,
           iconSize: 36,
           tapHeaderToExpand: true,
-          headerAlignment: ExpandablePanelHeaderAlignment.center
-      ),
+          headerAlignment: ExpandablePanelHeaderAlignment.center),
     );
   }
 }
-

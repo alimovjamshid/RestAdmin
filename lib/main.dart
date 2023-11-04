@@ -14,8 +14,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
   var tok = prefs.getString(token).toString();
-  authToken = tok;
   // ignore: unnecessary_null_comparison
+  authToken = tok;
   initializeDateFormatting().then((_) => runApp(tok == "null" ?const LoginApp():const MyApp()));
   if (tok != null) {
     await authRefresh(authToken).then((value) {

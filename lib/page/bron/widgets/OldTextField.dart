@@ -7,8 +7,9 @@ class OldTextField extends StatelessWidget {
   final String text;
   final double width;
   final Color textColor;
+  final TextEditingController textEditingController;
   const OldTextField({
-    super.key, required this.text, required this.width, required this.textColor,
+    super.key, required this.text, required this.width, required this.textColor, required this.textEditingController,
   });
 
   @override
@@ -33,6 +34,7 @@ class OldTextField extends StatelessWidget {
           SizedBox(
             width: MediaQuery.of(context).size.width-width,
             child: TextField(
+              controller: textEditingController,
               style: TextStyle(fontSize: 18),
               keyboardType: TextInputType.text,
               scrollPadding: EdgeInsets.zero,

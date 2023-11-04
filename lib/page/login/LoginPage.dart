@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restadmin/Utils.dart';
@@ -127,7 +128,18 @@ class _LoginPageState extends State<LoginPage> {
                           final prefs = await SharedPreferences.getInstance();
                           await auth(loginController.text.toString(),passwordController.text.toString()).then((value) {
                             if (value.statusCode == 201) {
+                              authToken = value.data['token'].toString();
+                              debugPrint(authToken);
                               setState(() {
+                                options = BaseOptions(
+                                  baseUrl: "",
+                                  connectTimeout: const Duration(seconds: 5),
+                                  receiveTimeout: const Duration(seconds: 5),
+                                  headers: {'Authorization': 'Bearer $authToken'},
+                                  contentType: 'application/json; charset=utf-8',
+                                  responseType: ResponseType.json,
+                                );
+                                dio = Dio(options);
                                 Navigator.of(context).pushAndRemoveUntil(
                                     MaterialPageRoute(
                                         builder: (context) => const MyApp()),

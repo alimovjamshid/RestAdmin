@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:restadmin/page/bron/widgets/LoadingDialog.dart';
 
 class Utils {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -37,7 +39,8 @@ final months = [
   "Dekabr"
 ];
 
-final partOfDay = ["morning", "afternoon", "evening"];
+final partOfDays = ["morning", "afternoon", "evening"];
+var partOfDay = "afternoon";
 
 int day = DateTime.now().day;
 int month = DateTime.now().month;
@@ -69,20 +72,24 @@ final List<bool> partMonth = [
 ];
 
 final Set<DateTime> selectedDays = <DateTime>{};
-
+//smomimjonov20@gmail.com
+//11111111
+//price 0 ketadi
+//verified default false ketadi, tahlil true qilganda
 const token = 'token';
 var authToken = "";
+var id = "";
 
-BaseOptions options = BaseOptions(
+var options = BaseOptions(
   baseUrl: "",
-  connectTimeout: const Duration(seconds: 5),
-  receiveTimeout: const Duration(seconds: 5),
+  connectTimeout: const Duration(seconds: 30),
+  receiveTimeout: const Duration(seconds: 30),
   headers: {'Authorization': 'Bearer $authToken'},
   contentType: 'application/json; charset=utf-8',
   responseType: ResponseType.json,
 );
 
-Dio dio = Dio(options);
+var dio = Dio(options);
 
 Future<Response> auth(String login, String password) async {
   try {
@@ -93,7 +100,8 @@ Future<Response> auth(String login, String password) async {
     );
     return response;
   } on DioError catch (e) {
-    return dio.post("path");
+    LoadingDialog().dismiss();
+    return e.response!.data;
   }
 }
 
@@ -105,7 +113,8 @@ Future<Response> authRefresh(String auth) async {
         data: data);
     return response;
   } on DioError catch (e) {
-    return dio.get("path");
+    LoadingDialog().dismiss();
+    return e.response!.data;
   }
 }
 
@@ -116,6 +125,7 @@ Future<Response> weddingPost(
     String paidPrice,
     String provideId,
     String phone,
+    String secondPhone,
     String name,
     String address,
     String extraInfo,
@@ -129,7 +139,8 @@ Future<Response> weddingPost(
       'price': price,
       'paid_price': paidPrice,
       'provider_id': provideId,
-      'phone_of_customer': phone,
+      'phone_number': phone,
+      'second_phone_number': secondPhone,
       'customer_name': name,
       'address': address,
       'extra_info': extraInfo,
@@ -144,7 +155,9 @@ Future<Response> weddingPost(
 
     return response;
   } on DioError catch (e) {
-    return dio.post("path");
+    LoadingDialog().dismiss();
+    Fluttertoast.showToast(msg: "Error");
+    return e.response!.data;
   }
 }
 
@@ -159,7 +172,9 @@ Future<Response> weddingsGetPartOfDay(
 
     return response;
   } on DioError catch (e) {
-    return dio.get("path");
+    LoadingDialog().dismiss();
+    Fluttertoast.showToast(msg: "Error");
+    return e.response!.data;
   }
 }
 
@@ -173,7 +188,8 @@ Future<Response> weddingsGetDay(String year, String month, String day) async {
 
     return response;
   } on DioError catch (e) {
-    return dio.get("path");
+    LoadingDialog().dismiss();
+    return e.response!.data;
   }
 }
 
@@ -192,7 +208,9 @@ Future<Response> weddingsGetDebts(
 
     return response;
   } on DioError catch (e) {
-    return dio.get("path");
+    LoadingDialog().dismiss();
+    Fluttertoast.showToast(msg: "Error");
+    return e.response!.data;
   }
 }
 
@@ -211,7 +229,9 @@ Future<Response> weddingsGetNotVerified(
 
     return response;
   } on DioError catch (e) {
-    return dio.get("path");
+    LoadingDialog().dismiss();
+    Fluttertoast.showToast(msg: "Error");
+    return e.response!.data;
   }
 }
 
@@ -222,7 +242,9 @@ Future<Response> weddingsGetId(String id) async {
 
     return response;
   } on DioError catch (e) {
-    return dio.get("path");
+    LoadingDialog().dismiss();
+    Fluttertoast.showToast(msg: "Error");
+    return e.response!.data;
   }
 }
 
@@ -263,17 +285,25 @@ Future<Response> weddingPatch(
 
     return response;
   } on DioError catch (e) {
-    return dio.post("path");
+    LoadingDialog().dismiss();
+    Fluttertoast.showToast(msg: "Error");
+    return e.response!.data;
   }
 }
 
 Future<Response> weddingsDelete(String id) async {
   try {
-    var response = await dio
-        .delete("https://wedding-halls-production.up.railway.app/weddings/$id");
+    var data = {
+      'id': id,
+    };
+    var response = await dio.delete(
+        "https://wedding-halls-production.up.railway.app/weddings/$id",
+        data: data);
 
     return response;
   } on DioError catch (e) {
-    return dio.get("path");
+    LoadingDialog().dismiss();
+    Fluttertoast.showToast(msg: "Error");
+    return e.response!.data;
   }
 }

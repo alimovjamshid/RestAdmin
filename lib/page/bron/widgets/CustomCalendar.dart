@@ -11,11 +11,11 @@ class CustomCalendar extends StatelessWidget {
    CustomCalendar({
     super.key,
     required DateTime focusedDay,
-    required Set<DateTime> selectedDays, required this.onPressed, required this.onDaySelected,
+    required List<DateTime> selectedDays, required this.onPressed, required this.onDaySelected,
   }) : _focusedDay = focusedDay, _selectedDays = selectedDays;
 
    DateTime _focusedDay;
-  final Set<DateTime> _selectedDays;
+  final List<DateTime> _selectedDays;
   final Function(DateTime) onPressed;
   final Function(DateTime,DateTime) onDaySelected;
    CalendarFormat _calendarFormat = CalendarFormat.month;
@@ -84,6 +84,9 @@ class CustomCalendar extends StatelessWidget {
               fontSize: 20
           ),
       ),
+      onHeaderTapped: (focusedDay) {
+        debugPrint("ONHEADER");
+      },
       focusedDay: _focusedDay,
       firstDay: DateTime.utc(2020,01,01),
       lastDay: DateTime.utc(2030,12,31),
@@ -91,7 +94,6 @@ class CustomCalendar extends StatelessWidget {
       onPageChanged: onPressed,
       selectedDayPredicate: (day) {
         return _selectedDays.contains(day);
-        // return isSameDay(day, _focusedDay);
       },
       onDaySelected: onDaySelected,
       onFormatChanged: (format) {

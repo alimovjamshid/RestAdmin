@@ -257,42 +257,42 @@ class _MenuSelectPageState extends State<MenuSelectPage> {
                           SizedBox(height: 20,),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: OldTextField(text: "F.I.SH",width: 205,textColor: colorText),
+                            child: OldTextField(textEditingController: TextEditingController(),text: "F.I.SH",width: 205,textColor: colorText),
                           ),
                           SizedBox(height: 10,),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: OldTextField(text: "Tel raqam",width: 205,textColor: colorText),
+                            child: OldTextField(textEditingController: TextEditingController(),text: "Tel raqam",width: 205,textColor: colorText),
                           ),
                           SizedBox(height: 10,),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: OldTextField(text: "Tel raqam 2",width: 205,textColor: colorText),
+                            child: OldTextField(textEditingController: TextEditingController(),text: "Tel raqam 2",width: 205,textColor: colorText),
                           ),
                           SizedBox(height: 10,),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: OldTextField(text: "Oldindon to'lov",width: 205,textColor: colorText),
+                            child: OldTextField(textEditingController: TextEditingController(),text: "Oldindon to'lov",width: 205,textColor: colorText),
                           ),
                           SizedBox(height: 10,),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: OldTextField(text: "Manzil",width: 205,textColor: colorText),
+                            child: OldTextField(textEditingController: TextEditingController(),text: "Manzil",width: 205,textColor: colorText),
                           ),
                           SizedBox(height: 20,),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: OldTextField(text: "Mehmonlar soni",width: 205,textColor: Colors.black),
+                            child: OldTextField(textEditingController: TextEditingController(),text: "Mehmonlar soni",width: 205,textColor: Colors.black),
                           ),
                           SizedBox(height: 10,),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: OldTextField(text: "Kechki bazim",width: 205,textColor: Colors.black),
+                            child: OldTextField(textEditingController: TextEditingController(),text: "Kechki bazim",width: 205,textColor: Colors.black),
                           ),
                           SizedBox(height: 10,),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: OldTextField(text: "Boshlanish vaqti",width: 205,textColor: Colors.black),
+                            child: OldTextField(textEditingController: TextEditingController(),text: "Boshlanish vaqti",width: 205,textColor: Colors.black),
                           ),
                           SizedBox(height: 20,)
                         ],

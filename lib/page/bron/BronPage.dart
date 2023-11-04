@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:restadmin/page/bron/model/ListDay.dart';
 import 'package:restadmin/page/bron/widgets/BronElevatedButton.dart';
 import 'package:restadmin/page/bron/widgets/CustomAppBar.dart';
 import 'package:restadmin/page/bron/widgets/CustomCalendar.dart';
+import 'package:restadmin/page/bron/widgets/LoadingDialog.dart';
 import 'package:restadmin/page/bron/widgets/MonthElevatedButton.dart';
 import 'package:restadmin/page/bron/widgets/NewBronDialog.dart';
 import 'package:restadmin/page/bron/widgets/OldBronDialog.dart';
@@ -19,29 +21,108 @@ class BronPage extends StatefulWidget {
   State<BronPage> createState() => _BronPageState();
 }
 
-class _BronPageState extends State<BronPage> with TickerProviderStateMixin{
-  final Set<DateTime> _selectedDays = <DateTime>{};
+class _BronPageState extends State<BronPage> {
+  final List<ListDay> _selectedDays = [];
+
+  final nameController = TextEditingController();
+  final phoneController = TextEditingController();
+  final secondPhoneController = TextEditingController();
+  final paidPriceController = TextEditingController();
+  final addressController = TextEditingController();
+  final otherController = TextEditingController();
 
   @override
   void initState() {
-    const BronPage();
     super.initState();
-    calendarSet("$year", "$month", "afternoon");
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      calendarGet("$year", "$month", "afternoon");
+    });
   }
 
-  Future<void> calendarSet(String year, String month, String partOfDay) async {
+  Future<void> calendarGet(String year, String month, String partOfDay) async {
+    LoadingDialog().show(context);
     await weddingsGetPartOfDay(year, month, partOfDay).then((value) {
       var data = value.data as List;
-      debugPrint(data.toString());
+      _selectedDays.clear();
       for (var element in data) {
         debugPrint(element.toString());
         var time = DateTime.parse(element['date']).toUtc();
-        _selectedDays.add(DateTime.utc(time.year,time.month,time.day));
+        var id = element['id'].toString();
+        _selectedDays.add(ListDay(id: id, time: time));
       }
+      LoadingDialog().dismiss();
       setState(() {
         _selectedDays;
       });
     });
+  }
+
+  Future<void> calendarDaySet(
+      String date,
+      int number,
+      String price,
+      String paidPrice,
+      String provideId,
+      String phone,
+      String secondPhone,
+      String name,
+      String address,
+      String extraInfo,
+      String partOfDay,
+      String status,
+      bool verified) async {
+    LoadingDialog().show(context);
+    var response = await weddingPost(
+        date,
+        number,
+        price,
+        paidPrice,
+        provideId,
+        phone,
+        secondPhone,
+        name,
+        address,
+        extraInfo,
+        partOfDay,
+        status,
+        verified);
+    if (response.statusCode == 201) {
+      calendarGet("$year", "$month", partOfDay);
+    }
+    LoadingDialog().dismiss();
+    // ignore: use_build_context_synchronously
+    Navigator.of(context).pop();
+  }
+
+  Future<void> calendarDayGet() async {
+    LoadingDialog().show(context);
+    await weddingsGetId(id).then((value) {
+      var data = value.data as List;
+      for (var element in data) {
+        debugPrint(element.toString());
+        nameController.text = element['customer_name'];
+        phoneController.text = element['phone_number'];
+        secondPhoneController.text = element['second_phone_number'];
+        paidPriceController.text = element['paid_price'];
+        addressController.text = element['address'];
+        otherController.text = element['extra_info'];
+      }
+      LoadingDialog().dismiss();
+    });
+  }
+
+  Future<void> calendarDayDelete() async {
+    await weddingsDelete(id).then((response) {
+      debugPrint("delete   $response");
+      if(response.statusCode==200){
+        Navigator.of(context).pop();
+        calendarGet("$year", "$month", partOfDay);
+      }
+    });
+  }
+
+  Future<void> calendarDayPath(String date) async{
+    // await weddingPatch(id, date, number, price, paidPrice, provideId, phone, name, address, extraInfo, partOfDay, status, verified)
   }
 
   @override
@@ -113,6 +194,7 @@ class _BronPageState extends State<BronPage> with TickerProviderStateMixin{
                           selectYear = value!;
                           year = int.parse(value);
                         });
+                        calendarGet("$year", "$month", partOfDay);
                       },
                       selectValue: selectYear,
                       list: listYears),
@@ -124,20 +206,81 @@ class _BronPageState extends State<BronPage> with TickerProviderStateMixin{
                           for (int i = 0; i < partMonth.length; i++) {
                             partMonth[i] = month - 1 == i;
                           }
+                          calendarGet("$year", "$month", partOfDay);
                           debugPrint(partMonth.toString());
                         });
                       },
-                      onDaySelected: (selectedDay, focusedDay) {
-                        if (_selectedDays.contains(selectedDay)) {
-                          OldBronDialog(
-                              context, selectedDay.month, selectedDay.day);
+                      onDaySelected: (selectedDay, focusedDay) async {
+                        print(" salom salom    $selectedDay");
+                        for (var element in _selectedDays) {
+                          if (selectedDay == element.time) {
+                            id = element.id;
+                          }
+                        }
+                        print("hello fam   $id");
+                        if (_selectedDays
+                            .map((e) => e.time)
+                            // ignore: unnecessary_null_comparison
+                            .where((element) => element != null)
+                            .cast<DateTime>()
+                            .toList()
+                            .contains(selectedDay)) {
+                          calendarDayGet().then(
+                            (value) {
+                              OldBronDialog(
+                                  context,
+                                  selectedDay.month,
+                                  selectedDay.day,
+                                  nameController,
+                                  phoneController,
+                                  secondPhoneController,
+                                  paidPriceController,
+                                  addressController,
+                                  otherController,
+                                  () {
+
+                                  }, () {
+                                calendarDayDelete();
+                              });
+                            },
+                          );
                         } else {
                           NewBronDialog(
-                              context, selectedDay.month, selectedDay.day);
+                              context,
+                              selectedDay.month,
+                              selectedDay.day,
+                              nameController,
+                              phoneController,
+                              secondPhoneController,
+                              paidPriceController,
+                              addressController,
+                              otherController, () {
+                            calendarDaySet(
+                                selectedDay.toString(),
+                                1,
+                                "100",
+                                paidPriceController.text.toString(),
+                                "1",
+                                phoneController.text.toString(),
+                                secondPhoneController.text.toString(),
+                                nameController.text.toString(),
+                                addressController.text.toString(),
+                                otherController.text.toString(),
+                                partOfDay,
+                                "deleted",
+                                false);
+                          });
                         }
                       },
                       focusedDay: DateTime.utc(year, month, day),
-                      selectedDays: _selectedDays),
+                      selectedDays:
+                          // ignore: unnecessary_null_comparison
+                          _selectedDays
+                              .map((e) => e.time)
+                              // ignore: unnecessary_null_comparison
+                              .where((element) => element != null)
+                              .cast<DateTime>()
+                              .toList()),
                   SizedBox(
                     height: 10,
                   ),
@@ -150,12 +293,13 @@ class _BronPageState extends State<BronPage> with TickerProviderStateMixin{
                             onPressed: () {
                               setState(() {
                                 // partDay[0] = !partDay[0];
-                                partDay[0]=true;
+                                partDay[0] = true;
                                 partDay[1] = false;
                                 partDay[2] = false;
                                 debugPrint(partDay.toString());
                               });
-                              calendarSet("$year", "$month", partOfDay[0]);
+                              calendarGet("$year", "$month", partOfDays[0]);
+                              partOfDay = partOfDays[0];
                               setState(() {
                                 _selectedDays.clear();
                               });
@@ -175,7 +319,8 @@ class _BronPageState extends State<BronPage> with TickerProviderStateMixin{
                               partDay[2] = false;
                               debugPrint(partDay.toString());
                             });
-                            calendarSet("$year", "$month", partOfDay[1]);
+                            calendarGet("$year", "$month", partOfDays[1]);
+                            partOfDay = partOfDays[1];
                             setState(() {
                               _selectedDays.clear();
                             });
@@ -196,7 +341,8 @@ class _BronPageState extends State<BronPage> with TickerProviderStateMixin{
                                 partDay[0] = false;
                                 debugPrint(partDay.toString());
                               });
-                              calendarSet("$year", "$month", partOfDay[2]);
+                              calendarGet("$year", "$month", partOfDays[2]);
+                              partOfDay = partOfDays[2];
                               setState(() {
                                 _selectedDays.clear();
                               });
@@ -231,11 +377,13 @@ class _BronPageState extends State<BronPage> with TickerProviderStateMixin{
                         MonthElevatedButton(
                             onPressed: () {
                               setState(() {
+                                _selectedDays;
                                 for (int i = 0; i < partMonth.length; i++) {
                                   partMonth[i] = 0 == i;
                                 }
                               });
                               month = 1;
+                              calendarGet("$year", "$month", partOfDay);
                             },
                             text: months[0],
                             radius: 40,
@@ -243,11 +391,13 @@ class _BronPageState extends State<BronPage> with TickerProviderStateMixin{
                         MonthElevatedButton(
                             onPressed: () {
                               setState(() {
+                                _selectedDays;
                                 for (int i = 0; i < partMonth.length; i++) {
                                   partMonth[i] = 1 == i;
                                 }
                               });
                               month = 2;
+                              calendarGet("$year", "$month", partOfDay);
                             },
                             text: months[1],
                             radius: 40,
@@ -255,11 +405,13 @@ class _BronPageState extends State<BronPage> with TickerProviderStateMixin{
                         MonthElevatedButton(
                             onPressed: () {
                               setState(() {
+                                _selectedDays;
                                 for (int i = 0; i < partMonth.length; i++) {
                                   partMonth[i] = 2 == i;
                                 }
                               });
                               month = 3;
+                              calendarGet("$year", "$month", partOfDay);
                             },
                             text: months[2],
                             radius: 40,
@@ -275,11 +427,13 @@ class _BronPageState extends State<BronPage> with TickerProviderStateMixin{
                         MonthElevatedButton(
                             onPressed: () {
                               setState(() {
+                                _selectedDays;
                                 for (int i = 0; i < partMonth.length; i++) {
                                   partMonth[i] = 3 == i;
                                 }
                               });
                               month = 4;
+                              calendarGet("$year", "$month", partOfDay);
                             },
                             text: months[3],
                             radius: 40,
@@ -287,11 +441,13 @@ class _BronPageState extends State<BronPage> with TickerProviderStateMixin{
                         MonthElevatedButton(
                             onPressed: () {
                               setState(() {
+                                _selectedDays;
                                 for (int i = 0; i < partMonth.length; i++) {
                                   partMonth[i] = 4 == i;
                                 }
                               });
                               month = 5;
+                              calendarGet("$year", "$month", partOfDay);
                             },
                             text: months[4],
                             radius: 40,
@@ -299,11 +455,13 @@ class _BronPageState extends State<BronPage> with TickerProviderStateMixin{
                         MonthElevatedButton(
                             onPressed: () {
                               setState(() {
+                                _selectedDays;
                                 for (int i = 0; i < partMonth.length; i++) {
                                   partMonth[i] = 5 == i;
                                 }
                               });
                               month = 6;
+                              calendarGet("$year", "$month", partOfDay);
                             },
                             text: months[5],
                             radius: 40,
@@ -319,11 +477,13 @@ class _BronPageState extends State<BronPage> with TickerProviderStateMixin{
                         MonthElevatedButton(
                             onPressed: () {
                               setState(() {
+                                _selectedDays;
                                 for (int i = 0; i < partMonth.length; i++) {
                                   partMonth[i] = 6 == i;
                                 }
                               });
                               month = 7;
+                              calendarGet("$year", "$month", partOfDay);
                             },
                             text: months[6],
                             radius: 40,
@@ -331,11 +491,13 @@ class _BronPageState extends State<BronPage> with TickerProviderStateMixin{
                         MonthElevatedButton(
                             onPressed: () {
                               setState(() {
+                                _selectedDays;
                                 for (int i = 0; i < partMonth.length; i++) {
                                   partMonth[i] = 7 == i;
                                 }
                               });
                               month = 8;
+                              calendarGet("$year", "$month", partOfDay);
                             },
                             text: months[7],
                             radius: 40,
@@ -343,11 +505,13 @@ class _BronPageState extends State<BronPage> with TickerProviderStateMixin{
                         MonthElevatedButton(
                             onPressed: () {
                               setState(() {
+                                _selectedDays;
                                 for (int i = 0; i < partMonth.length; i++) {
                                   partMonth[i] = 8 == i;
                                 }
                               });
                               month = 9;
+                              calendarGet("$year", "$month", partOfDay);
                             },
                             text: months[8],
                             radius: 40,
@@ -363,11 +527,13 @@ class _BronPageState extends State<BronPage> with TickerProviderStateMixin{
                         MonthElevatedButton(
                             onPressed: () {
                               setState(() {
+                                _selectedDays;
                                 for (int i = 0; i < partMonth.length; i++) {
                                   partMonth[i] = 9 == i;
                                 }
                               });
                               month = 10;
+                              calendarGet("$year", "$month", partOfDay);
                             },
                             text: months[9],
                             radius: 40,
@@ -375,11 +541,13 @@ class _BronPageState extends State<BronPage> with TickerProviderStateMixin{
                         MonthElevatedButton(
                             onPressed: () {
                               setState(() {
+                                _selectedDays;
                                 for (int i = 0; i < partMonth.length; i++) {
                                   partMonth[i] = 10 == i;
                                 }
                               });
                               month = 11;
+                              calendarGet("$year", "$month", partOfDay);
                             },
                             text: months[10],
                             radius: 40,
@@ -387,11 +555,13 @@ class _BronPageState extends State<BronPage> with TickerProviderStateMixin{
                         MonthElevatedButton(
                             onPressed: () {
                               setState(() {
+                                _selectedDays;
                                 for (int i = 0; i < partMonth.length; i++) {
                                   partMonth[i] = 11 == i;
                                 }
                               });
                               month = 12;
+                              calendarGet("$year", "$month", partOfDay);
                             },
                             text: months[11],
                             radius: 40,
